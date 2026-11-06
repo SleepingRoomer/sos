@@ -1,0 +1,54 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import Carte from '../../components/Carte.astro';
+import { url } from '../../utils';
+
+const ressources = (await getCollection('ressources', ({ data }) => !data.brouillon)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+const types = [...new Set(ressources.map((r) => r.data.type))];
+---
+
+<Base
+  titre="Ressources"
+  description="Fiches pratiques, bibliographies et documents du collectif Soigner ou Saigner sur les discriminations dans la santé."
+>
+  <PageHeader
+    surtitre="S'informer, se défendre, former"
+    titre="Ressources"
+    chapo="Fiches pratiques, bibliographies et documents pour comprendre les discriminations dans la santé et savoir comment réagir. Libres de diffusion : citez simplement le collectif."
+  />
+  <section class="section" style="padding-top:2.5rem">
+    <div class="conteneur">
+      {
+        types.length > 1 && (
+          <div class="filtres" role="group" aria-label="Filtrer par type">
+            <button type="button" aria-pressed="true" data-filtre="">Toutes</button>
+            {types.map((t) => (
+              <button type="button" aria-pressed="false" data-filtre={t}>{t}</button>
+            ))}
+          </div>
+        )
+      }
+      <div class="grille grille-3" data-liste>
+        {ressources.map((r) => <Carte href={`ressources/${r.id}`} {...r.data} suite="Consulter" />)}
+      </div>
+      {ressources.length === 0 && <p class="vide">Les premières ressources arrivent bientôt.</p>}
+
+      <div class="encadre" style="margin-top:3rem">
+        <h2 style="font-size:1.2rem">Une ressource vous manque ?</h2>
+        <p>
+          Dites-nous ce qui vous serait utile, dans votre service ou votre fac : nous construisons ces ressources à
+          partir de vos besoins. <a href={url('contact')}>Écrivez-nous</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { activerFiltres } from '../../scripts/filtres';
+  activerFiltres();
+</script>

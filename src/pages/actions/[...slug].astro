@@ -1,0 +1,45 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { dateFr, isoDate, url } from '../../utils';
+
+export async function getStaticPaths() {
+  const actions = await getCollection('actions', ({ data }) => !data.brouillon);
+  return actions.map((entree) => ({ params: { slug: entree.id }, props: { entree } }));
+}
+
+const { entree } = Astro.props;
+const { Content } = await render(entree);
+const d = entree.data;
+---
+
+<Base titre={d.titre} description={d.resume} image={d.image?.replace(/^\//, '')}>
+  <article>
+    <header class="tete-page">
+      <div class="conteneur-texte">
+        <p class="fil"><a href={url('actions')}>← Toutes les actions</a></p>
+        <div class="article-meta">
+          <span class="etiquette">{d.type}</span>
+          <time datetime={isoDate(d.date)}>{dateFr(d.date)}</time>
+        </div>
+        <h1 style="font-size:clamp(1.8rem,4vw,2.7rem)"><span class="filets">{d.titre}</span></h1>
+        <p class="chapo">{d.resume}</p>
+      </div>
+    </header>
+    <div class="section" style="padding-top:2.5rem">
+      <div class="conteneur-texte prose">
+        {d.image && <img src={url(d.image)} alt={d.imageAlt ?? ''} style="margin-bottom:2rem" />}
+        <Content />
+        {
+          d.lien && (
+            <p style="margin-top:2rem">
+              <a class="bouton bouton--contour" href={d.lien} rel="noopener">
+                {d.lienTexte ?? 'Voir la publication'} ↗
+              </a>
+            </p>
+          )
+        }
+      </div>
+    </div>
+  </article>
+</Base>

@@ -1,0 +1,45 @@
+---
+import { NAV, SITE } from '../config';
+import { url } from '../utils';
+
+const courant = Astro.url.pathname.replace(/\/$/, '');
+const estActif = (href: string) => {
+  const cible = url(href).replace(/\/$/, '');
+  return courant === cible || courant.startsWith(cible + '/');
+};
+---
+
+<header class="entete">
+  <div class="conteneur">
+    <a class="entete__logo" href={url()} aria-label={`${SITE.nom} – accueil`}>
+      <img src={url('img/logo-sos.png')} alt={SITE.nom} width="739" height="444" />
+    </a>
+    <button class="menu-bascule" type="button" aria-expanded="false" aria-controls="menu-principal">
+      <span aria-hidden="true">☰</span> Menu
+    </button>
+    <nav class="menu" id="menu-principal" aria-label="Menu principal">
+      <ul>
+        {
+          NAV.map((item) => (
+            <li>
+              <a href={url(item.href)} aria-current={estActif(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <a class="bouton" href={url('temoigner')} aria-current={estActif('temoigner') ? 'page' : undefined}>Témoigner</a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const bouton = document.querySelector<HTMLButtonElement>('.menu-bascule');
+  const menu = document.querySelector<HTMLElement>('#menu-principal');
+  bouton?.addEventListener('click', () => {
+    const ouvert = bouton.getAttribute('aria-expanded') === 'true';
+    bouton.setAttribute('aria-expanded', String(!ouvert));
+    menu?.setAttribute('data-ouvert', String(!ouvert));
+  });
+</script>

@@ -1,0 +1,27 @@
+---
+import { dateFr, isoDate, url } from '../utils';
+interface Props {
+  href: string;
+  titre: string;
+  resume: string;
+  type: string;
+  date: Date;
+  image?: string;
+  imageAlt?: string;
+  suite?: string;
+}
+const { href, titre, resume, type, date, image, imageAlt = '', suite = 'Lire la suite' } = Astro.props;
+---
+
+<a class="carte" href={url(href)} data-type={type}>
+  {image && <img class="carte__image" src={url(image)} alt={imageAlt} loading="lazy" />}
+  <div class="carte__corps">
+    <div class="carte__meta">
+      <span class="etiquette">{type}</span>
+      <time datetime={isoDate(date)}>{dateFr(date)}</time>
+    </div>
+    <h3 class="carte__titre">{titre}</h3>
+    <p class="carte__resume">{resume}</p>
+    <span class="carte__suite">{suite} →</span>
+  </div>
+</a>

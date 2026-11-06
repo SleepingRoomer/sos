@@ -1,0 +1,42 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import Carte from '../../components/Carte.astro';
+
+const actions = (await getCollection('actions', ({ data }) => !data.brouillon)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+const types = [...new Set(actions.map((a) => a.data.type))];
+---
+
+<Base titre="Nos actions" description="Campagnes, affaires suivies, interventions et communiqués du collectif Soigner ou Saigner.">
+  <PageHeader
+    surtitre="Sur le terrain"
+    titre="Nos actions"
+    chapo="Campagnes, affaires suivies, interventions et prises de position : ce que le collectif fait, au fil du temps."
+  />
+  <section class="section" style="padding-top:2.5rem">
+    <div class="conteneur">
+      {
+        types.length > 1 && (
+          <div class="filtres" role="group" aria-label="Filtrer par type">
+            <button type="button" aria-pressed="true" data-filtre="">Toutes</button>
+            {types.map((t) => (
+              <button type="button" aria-pressed="false" data-filtre={t}>{t}</button>
+            ))}
+          </div>
+        )
+      }
+      <div class="grille grille-3" data-liste>
+        {actions.map((a) => <Carte href={`actions/${a.id}`} {...a.data} />)}
+      </div>
+      {actions.length === 0 && <p class="vide">Les premières actions arrivent bientôt.</p>}
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { activerFiltres } from '../../scripts/filtres';
+  activerFiltres();
+</script>

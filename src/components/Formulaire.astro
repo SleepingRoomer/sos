@@ -1,0 +1,40 @@
+---
+// Formulaire Google Forms intégré.
+// Il ne se charge qu'au clic : tant que la personne ne l'a pas affiché, aucune
+// connexion n'est faite vers Google (pas de cookie tiers, rien à consentir).
+import { FORMULAIRE } from '../config';
+---
+
+<section class="formulaire" aria-labelledby="titre-formulaire">
+  <div class="formulaire__barre">
+    <span id="titre-formulaire">{FORMULAIRE.titre}</span>
+    <a href={FORMULAIRE.url} target="_blank" rel="noopener">Ouvrir dans un nouvel onglet ↗</a>
+  </div>
+  <div class="formulaire__accueil" data-formulaire-accueil>
+    <p>
+      Le formulaire est hébergé par Google Forms. Il ne s'affiche qu'à votre demande, et ne collecte aucune adresse
+      e-mail automatiquement.
+    </p>
+    <div class="boutons">
+      <button class="bouton" type="button" data-formulaire-afficher data-src={FORMULAIRE.embed}>
+        Afficher le formulaire
+      </button>
+      <a class="bouton bouton--contour" href={FORMULAIRE.url} target="_blank" rel="noopener">Ouvrir sur Google Forms</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-formulaire-afficher]').forEach((bouton) => {
+    bouton.addEventListener('click', () => {
+      const accueil = bouton.closest('[data-formulaire-accueil]');
+      if (!accueil) return;
+      const iframe = document.createElement('iframe');
+      iframe.src = bouton.dataset.src ?? '';
+      iframe.title = "Formulaire d'appel à témoignages";
+      iframe.loading = 'eager';
+      accueil.replaceWith(iframe);
+      iframe.focus();
+    });
+  });
+</script>

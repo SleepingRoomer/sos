@@ -1,0 +1,38 @@
+---
+import { NAV, SITE } from '../config';
+import { url } from '../utils';
+const annee = new Date().getFullYear();
+---
+
+<footer class="pied">
+  <div class="conteneur">
+    <div class="pied__grille">
+      <div>
+        <a class="pied__logo" href={url()}>
+          <img src={url('img/logo-sos-inverse.png')} alt={SITE.nom} width="739" height="444" />
+        </a>
+        <p style="margin-top:1.2rem;max-width:34ch">
+          Collectif de soignant·es contre les discriminations dans la santé, notamment l'islamophobie.
+        </p>
+      </div>
+      <div>
+        <h2>Le site</h2>
+        <ul>
+          <li><a href={url('temoigner')}>Témoigner</a></li>
+          {NAV.map((item) => <li><a href={url(item.href)}>{item.label}</a></li>)}
+        </ul>
+      </div>
+      <div>
+        <h2>Nous suivre</h2>
+        <ul>
+          <li><a href={SITE.instagram.url} rel="noopener">Instagram {SITE.instagram.pseudo}</a></li>
+          <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="pied__bas">
+      <span>© {annee} Collectif {SITE.nom}</span>
+      <span><a href={url('mentions-legales')}>Mentions légales et confidentialité</a></span>
+    </div>
+  </div>
+</footer>

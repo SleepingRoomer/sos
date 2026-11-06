@@ -1,0 +1,60 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { SITE, mailto } from '../config';
+import { url } from '../utils';
+---
+
+<Base
+  titre="Le collectif"
+  description="Soigner ou Saigner (SOS) est un collectif de soignant·es qui lutte contre les discriminations dans la santé, notamment l'islamophobie."
+>
+  <PageHeader
+    surtitre="Qui sommes-nous"
+    titre="Le collectif"
+    chapo="Soigner ou Saigner (SOS) est un collectif de soignant·es qui lutte contre les discriminations dans la santé, notamment l'islamophobie."
+  />
+
+  <section class="section">
+    <div class="conteneur-texte prose">
+      <h2>Pourquoi nous existons</h2>
+      <p>
+        Le soin repose sur une promesse d'égalité : soigner chaque personne avec la même conscience, quelle que soit son
+        origine ou sa religion. Pourtant, des patient·es, des soignant·es et des étudiant·es en santé subissent des
+        discriminations, à l'hôpital comme en formation. Trop souvent, elles sont banalisées, et les personnes
+        concernées encaissent en silence.
+      </p>
+      <p>
+        Nous refusons ce silence. Nous défendons une idée simple : l'<strong>impartialité dans le soin</strong> est une
+        exigence, mais elle n'impose pas de se taire face aux causes des inégalités.
+      </p>
+
+      <h2>Nos missions</h2>
+      <h3>Écouter et soutenir</h3>
+      <p>
+        Nous recueillons les témoignages, de façon anonyme si la personne le souhaite, et accompagnons celles et ceux qui
+        le demandent : écoute, soutien moral et aide juridique au cas par cas, selon la situation.
+      </p>
+      <h3>Documenter et dénoncer</h3>
+      <p>
+        Chaque témoignage aide à rendre visible l'ampleur des pratiques discriminatoires. Nous suivons des affaires,
+        comme <a href={url('actions/2026-10-affaire-calot-jugement')}>celle de Majdouline</a>, sanctionnée pour le port
+        du calot puis rétablie dans ses droits par le tribunal administratif.
+      </p>
+      <h3>Sensibiliser et former</h3>
+      <p>
+        Nous produisons des <a href={url('ressources')}>ressources</a> pour les étudiant·es, les soignant·es et les
+        enseignant·es, et souhaitons intervenir dans les facultés, les instituts de formation et les services pour
+        interroger le mythe d'un soin « neutre ».
+      </p>
+
+      <h2>Agir avec nous</h2>
+      <ul>
+        <li><strong>Témoignez</strong> si vous avez vécu ou été témoin d'une discrimination : <a href={url('temoigner')}>formulaire anonyme</a>.</li>
+        <li><strong>Relayez</strong> nos campagnes et suivez-nous sur Instagram : <a href={SITE.instagram.url} rel="noopener">{SITE.instagram.pseudo}</a>.</li>
+        <li><strong>Invitez-nous</strong> dans votre fac, votre IFSI, votre association ou votre service : <a href={mailto('Demande d’intervention')}>écrivez-nous</a>.</li>
+        <li><strong>Rejoignez le collectif</strong> si vous êtes soignant·e ou étudiant·e en santé et souhaitez vous engager : <a href={mailto('Rejoindre le collectif')}>présentez-vous</a>.</li>
+      </ul>
+    </div>
+  </section>
+</Base>

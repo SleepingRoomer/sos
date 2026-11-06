@@ -1,0 +1,59 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { SITE } from '../config';
+---
+
+<Base titre="Mentions légales et confidentialité">
+  <PageHeader titre="Mentions légales" />
+  <section class="section" style="padding-top:2.5rem">
+    <div class="conteneur-texte prose">
+      <h2>Éditeur du site</h2>
+      <!-- À COMPLÉTER : statut (collectif de fait ou association loi 1901), adresse ou siège, nom du ou de la directeur·rice de la publication. -->
+      <p>
+        Collectif {SITE.nom} (SOS)<br />
+        Contact : <a href={`mailto:${SITE.email}`}>{SITE.email}</a><br />
+        Directeur·rice de la publication : [à compléter]
+      </p>
+
+      <h2>Hébergement</h2>
+      <p>
+        GitHub Pages, service de GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.
+      </p>
+
+      <h2>Propriété des contenus</h2>
+      <p>
+        Les textes et ressources du site peuvent être partagés librement, à condition de citer le collectif {SITE.nom}.
+        Le logo ne doit pas être modifié.
+      </p>
+
+      <h2 id="confidentialite">Confidentialité et données personnelles</h2>
+      <h3>Navigation sur le site</h3>
+      <p>
+        Ce site ne dépose aucun cookie, n'utilise aucun outil de mesure d'audience et ne charge aucune police ou
+        ressource depuis un service tiers. L'hébergeur peut conserver des journaux techniques (adresse IP, date de
+        connexion) pour assurer la sécurité du service.
+      </p>
+      <h3>Formulaire de témoignage</h3>
+      <p>
+        Le formulaire est fourni par Google Forms (Google Ireland Limited). Il ne se charge sur ce site que si vous
+        cliquez sur « Afficher le formulaire » ; Google peut alors déposer ses propres cookies.
+      </p>
+      <ul>
+        <li>Aucune adresse e-mail n'est collectée automatiquement.</li>
+        <li>Vos coordonnées ne sont demandées que si vous souhaitez être recontacté·e.</li>
+        <li>
+          Vos réponses peuvent révéler des convictions religieuses, qui sont des données sensibles au sens du RGPD
+          (article 9). Elles ne sont traitées qu'avec votre consentement explicite, recueilli dans le formulaire.
+        </li>
+        <li>Les réponses sont stockées sur le compte Google du collectif et ne sont jamais publiées ni transmises sans votre accord.</li>
+      </ul>
+      <h3>Vos droits</h3>
+      <p>
+        Vous pouvez demander l'accès, la rectification ou la suppression de vos données, ou retirer votre consentement, en
+        écrivant à <a href={`mailto:${SITE.email}`}>{SITE.email}</a>. Si vous estimez que vos droits ne sont pas
+        respectés, vous pouvez saisir la CNIL (cnil.fr).
+      </p>
+    </div>
+  </section>
+</Base>

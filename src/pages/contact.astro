@@ -1,0 +1,69 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { SITE, mailto } from '../config';
+import { url } from '../utils';
+
+const motifs = [
+  {
+    titre: 'Vous vivez une situation',
+    texte: 'Discrimination, pressions, sanction : témoignez de façon anonyme, ou demandez à être recontacté·e.',
+    lien: url('temoigner'),
+    bouton: 'Témoigner',
+    rouge: true,
+  },
+  {
+    titre: 'Presse et médias',
+    texte: "Demande d'interview, d'analyse ou de mise en relation avec des témoins.",
+    lien: url('presse'),
+    bouton: 'Espace presse',
+  },
+  {
+    titre: 'Intervention, formation',
+    texte: 'Faculté, IFSI, association étudiante, service hospitalier : invitez le collectif.',
+    lien: mailto('Demande d’intervention'),
+    bouton: 'Nous inviter',
+  },
+  {
+    titre: 'Rejoindre le collectif',
+    texte: 'Soignant·e ou étudiant·e en santé, vous voulez vous engager à nos côtés ?',
+    lien: mailto('Rejoindre le collectif'),
+    bouton: 'Nous écrire',
+  },
+  {
+    titre: 'Associations, partenaires',
+    texte: 'Vous menez des actions proches des nôtres ? Construisons ensemble.',
+    lien: mailto('Partenariat'),
+    bouton: 'Nous écrire',
+  },
+  {
+    titre: 'Autre demande',
+    texte: 'Une question, une idée de ressource, un retour sur le site.',
+    lien: mailto('Contact'),
+    bouton: 'Nous écrire',
+  },
+];
+---
+
+<Base titre="Contact" description="Contacter le collectif Soigner ou Saigner : témoignages, presse, interventions, partenariats.">
+  <PageHeader surtitre="Nous écrire" titre="Contact" chapo="Choisissez le motif de votre message : l'objet de l'e-mail est prérempli pour que nous puissions vous répondre plus vite.">
+    <p class="email-geant" style="margin-top:1.5rem"><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+    <p>Instagram : <a href={SITE.instagram.url} rel="noopener">{SITE.instagram.pseudo}</a></p>
+  </PageHeader>
+
+  <section class="section section--pale">
+    <div class="conteneur grille grille-3">
+      {
+        motifs.map((m) => (
+          <div class={`contact-carte${m.rouge ? ' contact-carte--rouge' : ''}`}>
+            <h3>{m.titre}</h3>
+            <p>{m.texte}</p>
+            <a class={`bouton${m.rouge ? '' : ' bouton--contour'}`} href={m.lien}>
+              {m.bouton}
+            </a>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</Base>

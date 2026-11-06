@@ -1,0 +1,114 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Carte from '../components/Carte.astro';
+import { SITE } from '../config';
+import { url } from '../utils';
+
+const actions = (await getCollection('actions', ({ data }) => !data.brouillon))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+const ressources = (await getCollection('ressources', ({ data }) => !data.brouillon))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+---
+
+<Base>
+  <section class="une">
+    <div class="conteneur une__grille">
+      <div>
+        <span class="surtitre">Collectif de soignant·es</span>
+        <h1>Contre les discriminations <span class="rouge">dans la santé</span></h1>
+        <p class="chapo">
+          {SITE.nom} lutte contre les discriminations dans le soin, notamment l'islamophobie : envers les patient·es
+          comme envers les soignant·es et les étudiant·es en santé.
+        </p>
+        <div class="boutons">
+          <a class="bouton" href={url('temoigner')}>Témoigner</a>
+          <a class="bouton bouton--contour" href={url('le-collectif')}>Découvrir le collectif</a>
+        </div>
+      </div>
+
+      <aside class="encart-campagne" aria-labelledby="campagne-titre">
+        <span class="etiquette">En ce moment</span>
+        <h2 id="campagne-titre">Port du calot : ne banalisons rien</h2>
+        <p>
+          Remarques, pressions, convocations, sanctions… Vous avez vécu ou été témoin d'une situation discriminatoire
+          liée au port du calot ? Ne restez pas seul·e.
+        </p>
+        <ul>
+          <li>Écoute et soutien moral</li>
+          <li>Aide juridique au cas par cas</li>
+          <li>Formulaire anonyme, 5 à 10 minutes</li>
+        </ul>
+        <a class="bouton bouton--blanc" href={url('temoigner')}>Je témoigne</a>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section section--pale" aria-labelledby="missions">
+    <div class="conteneur">
+      <h2 id="missions" class="filets">Ce que nous faisons</h2>
+      <div class="grille grille-3 piliers">
+        <div class="pilier">
+          <h3>Écouter et soutenir</h3>
+          <p>
+            Nous recueillons les témoignages et accompagnons les personnes concernées : écoute, soutien moral et aide
+            juridique au cas par cas.
+          </p>
+        </div>
+        <div class="pilier">
+          <h3>Documenter et dénoncer</h3>
+          <p>
+            Chaque situation documentée rend visible l'ampleur des pratiques discriminatoires. Nous suivons les affaires
+            et refusons que l'inacceptable devienne la norme.
+          </p>
+        </div>
+        <div class="pilier">
+          <h3>Sensibiliser et former</h3>
+          <p>
+            Nous produisons des ressources pour les étudiant·es, les soignant·es et les équipes, et intervenons pour
+            interroger le mythe d'un soin « neutre ».
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="dernieres-actions">
+    <div class="conteneur">
+      <div class="entete-section">
+        <h2 id="dernieres-actions" class="filets">Nos actions</h2>
+        <a class="lien-fleche" href={url('actions')}>Toutes les actions</a>
+      </div>
+      <div class="grille grille-3">
+        {actions.map((a) => <Carte href={`actions/${a.id}`} {...a.data} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--pale" aria-labelledby="dernieres-ressources">
+    <div class="conteneur">
+      <div class="entete-section">
+        <h2 id="dernieres-ressources" class="filets">Ressources</h2>
+        <a class="lien-fleche" href={url('ressources')}>Toutes les ressources</a>
+      </div>
+      <div class="grille grille-3">
+        {ressources.map((r) => <Carte href={`ressources/${r.id}`} {...r.data} suite="Consulter" />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--bleue" aria-labelledby="presse">
+    <div class="conteneur bandeau">
+      <div>
+        <h2 id="presse">Médias, associations, facultés</h2>
+        <p>Vous souhaitez nous interroger, relayer une action ou nous inviter à intervenir ? Écrivez-nous.</p>
+      </div>
+      <div class="boutons">
+        <a class="bouton bouton--blanc" href={url('presse')}>Espace presse</a>
+        <a class="bouton" href={url('contact')}>Nous contacter</a>
+      </div>
+    </div>
+  </section>
+</Base>

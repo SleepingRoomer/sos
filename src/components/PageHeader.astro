@@ -1,0 +1,20 @@
+---
+import { url } from '../utils';
+interface Props {
+  titre: string;
+  surtitre?: string;
+  chapo?: string;
+  fil?: { href: string; label: string };
+}
+const { titre, surtitre, chapo, fil } = Astro.props;
+---
+
+<header class="tete-page">
+  <div class="conteneur">
+    {fil && <p class="fil"><a href={url(fil.href)}>← {fil.label}</a></p>}
+    {surtitre && <span class="surtitre">{surtitre}</span>}
+    <h1><span class="filets">{titre}</span></h1>
+    {chapo && <p class="chapo">{chapo}</p>}
+    <slot />
+  </div>
+</header>

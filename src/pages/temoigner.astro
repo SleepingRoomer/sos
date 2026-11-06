@@ -1,0 +1,59 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Formulaire from '../components/Formulaire.astro';
+import { SITE, mailto } from '../config';
+import { url } from '../utils';
+---
+
+<Base
+  titre="Témoigner"
+  description="Vous avez vécu ou été témoin d'une discrimination liée au port du calot à l'hôpital ? Témoignez anonymement auprès du collectif Soigner ou Saigner."
+>
+  <PageHeader
+    surtitre="Appel à témoignages"
+    titre="Témoignez"
+    chapo="Vous avez subi ou été témoin d'une situation discriminatoire liée au port du calot (ou d'un autre couvre-chef) à l'hôpital, en stage, en formation ou dans un contexte de soins ? Racontez-le-nous : se taire, c'est laisser faire."
+  />
+
+  <section class="section" style="padding-top:2rem">
+    <div class="conteneur">
+      <ul class="garanties">
+        <li><strong>Anonyme</strong>Aucune adresse e-mail n'est collectée. Vos coordonnées ne sont demandées que si vous souhaitez être recontacté·e.</li>
+        <li><strong>5 à 10 minutes</strong>Quatre courtes étapes : vous, ce qui s'est passé, vos démarches, et vos coordonnées si vous le souhaitez.</li>
+        <li><strong>Rien sans votre accord</strong>Aucune information n'est publiée ni transmise sans votre accord. Évitez les noms si vous ne voulez pas les donner.</li>
+        <li><strong>Un soutien</strong>Écoute et soutien moral, et aide juridique au cas par cas, selon votre situation.</li>
+      </ul>
+
+      <div class="avertissement">
+        <p>
+          <strong>Avant de refuser un ordre de votre hiérarchie, parlez-nous-en.</strong> Un refus d'obéir peut être
+          retenu comme une faute, même face à un ordre illégal. Écrivez-nous à
+          <a href={mailto('Besoin de conseil – port du calot')}>{SITE.email}</a>.
+        </p>
+      </div>
+
+      <Formulaire />
+
+      <div class="grille grille-2" style="margin-top:3rem">
+        <div class="encadre">
+          <h2 style="font-size:1.2rem">Vos données</h2>
+          <p>
+            Les réponses peuvent révéler des convictions religieuses : ce sont des données sensibles au sens du RGPD.
+            C'est pourquoi le formulaire vous demande un consentement explicite. Elles sont stockées sur le compte Google
+            du collectif et ne sont jamais rendues publiques sans votre accord.
+            <a href={url('mentions-legales#confidentialite')}>En savoir plus</a>.
+          </p>
+        </div>
+        <div class="encadre">
+          <h2 style="font-size:1.2rem">Pour aller plus loin</h2>
+          <p>
+            Lisez nos <a href={url('ressources/reperes-port-du-calot')}>repères sur le port du calot</a> et le récit de
+            <a href={url('actions/2026-10-affaire-calot-jugement')}>l'affaire de Majdouline</a>. Vous préférez écrire
+            directement ? <a href={mailto('Témoignage')}>{SITE.email}</a> ou {SITE.instagram.pseudo} sur Instagram.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,111 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Carte from '../components/Carte.astro';
+import { SITE, mailto } from '../config';
+import { url } from '../utils';
+
+const communiques = (await getCollection('actions', ({ data }) => !data.brouillon && data.type === 'Communiqué')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const presentation = `Soigner ou Saigner (SOS) est un collectif de soignant·es qui lutte contre les discriminations dans la santé, notamment l'islamophobie. Il recueille les témoignages de patient·es, de soignant·es et d'étudiant·es en santé, les accompagne (écoute, soutien moral, aide juridique au cas par cas), documente les pratiques discriminatoires et produit des ressources de sensibilisation. Contact : ${SITE.email} – Instagram : ${SITE.instagram.pseudo}`;
+
+const logos = [
+  { fichier: 'img/logo-sos.png', nom: 'Logo couleur', fond: '#ffffff' },
+  { fichier: 'img/logo-sos-inverse.png', nom: 'Logo sur fond bleu', fond: '#006476' },
+  { fichier: 'img/logo-sos-blanc.png', nom: 'Logo blanc', fond: '#13282d' },
+  { fichier: 'img/logo-sos-sigle.png', nom: 'Sigle seul', fond: '#ffffff' },
+];
+---
+
+<Base
+  titre="Espace presse"
+  description="Contact presse, présentation et logos du collectif Soigner ou Saigner."
+>
+  <PageHeader
+    surtitre="Médias"
+    titre="Espace presse"
+    chapo="Journalistes, chercheur·es, associations : vous préparez un sujet sur les discriminations dans la santé ou souhaitez recueillir notre analyse ? Nous répondons aux demandes d'interview et, lorsque c'est possible et avec leur accord, pouvons vous mettre en relation avec des personnes concernées."
+  />
+
+  <section class="section">
+    <div class="conteneur grille grille-2" style="align-items:start">
+      <div class="contact-carte contact-carte--rouge">
+        <span class="surtitre" style="margin:0">Contact presse</span>
+        <p class="email-geant" style="color:var(--bleu)">{SITE.email}</p>
+        <p>
+          Précisez votre média, votre sujet et votre échéance : nous revenons vers vous au plus vite. Les personnes
+          que nous mettons en relation avec vous peuvent demander l'anonymat ; merci de le respecter.
+        </p>
+        <a class="bouton" href={mailto('Demande presse')}>Écrire au collectif</a>
+      </div>
+      <div>
+        <h2 style="font-size:1.3rem">Le collectif en quelques lignes</h2>
+        <div class="copier">
+          <label for="presentation" class="sr-only">Présentation du collectif</label>
+          <textarea id="presentation" readonly>{presentation}</textarea>
+          <button class="bouton bouton--contour" type="button" data-copier="presentation">Copier le texte</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--pale" aria-labelledby="logos">
+    <div class="conteneur">
+      <h2 id="logos" class="filets">Logos</h2>
+      <p>Couleurs du collectif : bleu <strong>#006476</strong> et rouge <strong>#c81111</strong>. Merci de ne pas déformer ni recolorer le logo.</p>
+      <div class="telechargements">
+        {
+          logos.map((l) => (
+            <a class="telechargement" href={url(l.fichier)} download>
+              <span class="telechargement__apercu" style={`background:${l.fond}`}>
+                <img src={url(l.fichier)} alt="" loading="lazy" />
+              </span>
+              <span class="telechargement__texte">
+                <span>{l.nom}</span>
+                <span>PNG ↓</span>
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="communiques">
+    <div class="conteneur">
+      <h2 id="communiques" class="filets">Communiqués</h2>
+      {
+        communiques.length > 0 ? (
+          <div class="grille grille-3">
+            {communiques.map((c) => <Carte href={`actions/${c.id}`} {...c.data} />)}
+          </div>
+        ) : (
+          <p class="vide">
+            Aucun communiqué pour l'instant. Retrouvez nos dernières prises de position dans <a href={url('actions')}>nos actions</a>.
+          </p>
+        )
+      }
+    </div>
+  </section>
+</Base>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copier]').forEach((bouton) => {
+    bouton.addEventListener('click', async () => {
+      const champ = document.getElementById(bouton.dataset.copier ?? '') as HTMLTextAreaElement | null;
+      if (!champ) return;
+      try {
+        await navigator.clipboard.writeText(champ.value);
+      } catch {
+        champ.select();
+        document.execCommand('copy');
+      }
+      const texte = bouton.textContent;
+      bouton.textContent = 'Copié !';
+      setTimeout(() => (bouton.textContent = texte), 2000);
+    });
+  });
+</script>
