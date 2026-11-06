@@ -10,8 +10,6 @@
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.3.6",
-    "@fontsource/montserrat": "^5.3.0",
-    "@fontsource/source-sans-3": "^5.3.1",
     "astro": "^7.4.7"
   }
 }

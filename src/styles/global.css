@@ -4,6 +4,12 @@
    titres en capitales grasses entre deux filets rouges, angles droits.
    ========================================================================== */
 
+/* Police : Montserrat Arabic (Mohamed Gaber, licence SIL OFL 1.1), hébergée sur le site. */
+@font-face { font-family: 'Montserrat Arabic'; font-weight: 400; font-style: normal; font-display: swap; src: url('../assets/fonts/Montserrat-Arabic-Regular.woff2') format('woff2'); }
+@font-face { font-family: 'Montserrat Arabic'; font-weight: 700; font-style: normal; font-display: swap; src: url('../assets/fonts/Montserrat-Arabic-Bold.woff2') format('woff2'); }
+@font-face { font-family: 'Montserrat Arabic'; font-weight: 800; font-style: normal; font-display: swap; src: url('../assets/fonts/Montserrat-Arabic-ExtraBold.woff2') format('woff2'); }
+@font-face { font-family: 'Montserrat Arabic'; font-weight: 900; font-style: normal; font-display: swap; src: url('../assets/fonts/Montserrat-Arabic-Black.woff2') format('woff2'); }
+
 :root {
   --bleu: #006476;
   --bleu-fonce: #00495a;
@@ -15,8 +21,8 @@
   --gris-clair: #d5e0e3;
   --blanc: #ffffff;
 
-  --titre: 'Montserrat', 'Arial Black', system-ui, sans-serif;
-  --texte: 'Source Sans 3', 'Segoe UI', system-ui, sans-serif;
+  --titre: 'Montserrat Arabic', 'Arial Black', system-ui, sans-serif;
+  --texte: 'Montserrat Arabic', 'Segoe UI', system-ui, sans-serif;
 
   --largeur: 1160px;
   --largeur-texte: 72ch;
@@ -32,8 +38,8 @@ html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 body {
   margin: 0;
   font-family: var(--texte);
-  font-size: 1.125rem;
-  line-height: 1.6;
+  font-size: 1.0625rem;
+  line-height: 1.7;
   color: var(--encre);
   background: var(--blanc);
   display: flex;
@@ -268,7 +274,7 @@ p { margin: 0 0 1em; }
 
 /* ---------- Article (actions, ressources, pages texte) ---------- */
 
-.prose { font-size: 1.15rem; }
+.prose { font-size: 1.08rem; }
 .prose > * + * { margin-top: 0; }
 .prose h2 { font-size: 1.45rem; margin-top: 2.2em; padding-top: .9rem; border-top: 4px solid var(--rouge); display: inline-block; }
 .prose h3 { margin-top: 1.8em; }
@@ -331,7 +337,7 @@ p { margin: 0 0 1em; }
 .telechargement:hover { border-color: var(--bleu); color: var(--encre); }
 .telechargement__apercu { display: grid; place-items: center; aspect-ratio: 16/10; padding: 1.2rem; }
 .telechargement__apercu img { max-height: 100%; width: auto; }
-.telechargement__texte { padding: .8rem 1rem; border-top: 2px solid var(--gris-clair); font-weight: 600; display: flex; justify-content: space-between; gap: .5rem; }
+.telechargement__texte { padding: .8rem 1rem; border-top: 2px solid var(--gris-clair); font-weight: 700; display: flex; justify-content: space-between; gap: .5rem; }
 .telechargement__texte span:last-child { color: var(--bleu); font-family: var(--titre); font-weight: 800; font-size: .8rem; text-transform: uppercase; }
 
 .copier { position: relative; }

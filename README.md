@@ -82,6 +82,7 @@ npm run build   # génère le site dans dist/
 
 ## Choix techniques
 
+- Police : Montserrat Arabic (Mohamed Gaber, licence libre SIL OFL 1.1, fichiers dans `src/assets/fonts/`).
 - Aucun cookie, aucune mesure d'audience, polices hébergées sur le site (pas d'appel à Google Fonts).
 - Le formulaire Google ne se charge qu'au clic, pour ne pas exposer les visiteur·ses à Google sans leur accord.
 - DA reprise des visuels Instagram : bleu `#006476`, rouge `#c81111`, titres en capitales entre deux filets rouges, angles droits.
