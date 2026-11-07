@@ -2,7 +2,8 @@
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import Formulaire from '../components/Formulaire.astro';
-import { SITE, mailto } from '../config';
+import Icone from '../components/Icone.astro';
+import { FORMULAIRES } from '../config';
 import { url } from '../utils';
 ---
 
@@ -19,41 +20,61 @@ import { url } from '../utils';
   <section class="section" style="padding-top:2rem">
     <div class="conteneur">
       <ul class="garanties">
-        <li><strong>Anonyme</strong>Aucune adresse e-mail n'est collectée. Vos coordonnées ne sont demandées que si vous souhaitez être recontacté·e.</li>
-        <li><strong>5 à 10 minutes</strong>Quatre courtes étapes : vous, ce qui s'est passé, vos démarches, et vos coordonnées si vous le souhaitez.</li>
-        <li><strong>Rien sans votre accord</strong>Aucune information n'est publiée ni transmise sans votre accord. Évitez les noms si vous ne voulez pas les donner.</li>
-        <li><strong>Un soutien</strong>Écoute et soutien moral, et aide juridique au cas par cas, selon votre situation.</li>
+        <li><span class="picto"><Icone nom="cadenas" /></span><strong>Anonyme</strong>Aucune adresse e-mail n'est collectée. Vos coordonnées ne sont demandées que si vous souhaitez être recontacté·e.</li>
+        <li><span class="picto"><Icone nom="horloge" /></span><strong>5 à 10 minutes</strong>Quatre courtes étapes : vous, ce qui s'est passé, vos démarches, et vos coordonnées si vous le souhaitez.</li>
+        <li><span class="picto"><Icone nom="oeil" /></span><strong>Rien sans votre accord</strong>Aucune information n'est publiée ni transmise sans votre accord. Évitez les noms si vous ne voulez pas les donner.</li>
+        <li><span class="picto picto--rouge"><Icone nom="soutien" /></span><strong>Un soutien</strong>Écoute et soutien moral, et aide juridique au cas par cas, selon votre situation.</li>
       </ul>
 
       <div class="avertissement">
         <p>
           <strong>Avant de refuser un ordre de votre hiérarchie, parlez-nous-en.</strong> Un refus d'obéir peut être
-          retenu comme une faute, même face à un ordre illégal. Écrivez-nous à
-          <a href={mailto('Besoin de conseil – port du calot')}>{SITE.email}</a>.
+          retenu comme une faute, même face à un ordre illégal.
+          <a href={url('contact?motif=conseil')}>Demander conseil au collectif</a>
         </p>
       </div>
 
-      <Formulaire />
+      <Formulaire titre={FORMULAIRES.temoignage.titre} url={FORMULAIRES.temoignage.url} hauteur={FORMULAIRES.temoignage.hauteur} />
+    </div>
+  </section>
 
-      <div class="grille grille-2" style="margin-top:3rem">
-        <div class="encadre">
-          <h2 style="font-size:1.2rem">Vos données</h2>
-          <p>
-            Les réponses peuvent révéler des convictions religieuses : ce sont des données sensibles au sens du RGPD.
-            C'est pourquoi le formulaire vous demande un consentement explicite. Elles sont stockées sur le compte Google
-            du collectif et ne sont jamais rendues publiques sans votre accord.
-            <a href={url('mentions-legales#confidentialite')}>En savoir plus</a>.
-          </p>
-        </div>
-        <div class="encadre">
-          <h2 style="font-size:1.2rem">Pour aller plus loin</h2>
-          <p>
-            Lisez nos <a href={url('ressources/reperes-port-du-calot')}>repères sur le port du calot</a> et le récit de
-            <a href={url('actions/2026-10-affaire-calot-jugement')}>l'affaire de Majdouline</a>. Vous préférez écrire
-            directement ? <a href={mailto('Témoignage')}>{SITE.email}</a> ou {SITE.instagram.pseudo} sur Instagram.
-          </p>
-        </div>
+  <section class="section section--pale" aria-labelledby="questions">
+    <div class="conteneur-texte">
+      <h2 id="questions" class="filets">Vos questions</h2>
+      <div class="faq">
+        <details>
+          <summary>Mon témoignage sera-t-il publié ?</summary>
+          <div><p>Jamais sans votre accord. Les témoignages servent d'abord à documenter ces pratiques et à vous soutenir. Si nous souhaitons en citer un extrait, par exemple dans une publication anonymisée, nous vous le demandons d'abord.</p></div>
+        </details>
+        <details>
+          <summary>Puis-je rester complètement anonyme ?</summary>
+          <div><p>Oui. Aucune adresse e-mail n'est collectée automatiquement, et vous n'avez pas à donner votre nom. Vous pouvez aussi éviter de nommer des personnes ou des établissements.</p></div>
+        </details>
+        <details>
+          <summary>Je n'ai pas été visé·e, j'ai seulement assisté à la scène. Puis-je témoigner ?</summary>
+          <div><p>Oui, et c'est précieux. Collègues, encadrant·es, patient·es ou proches : les témoins aident à établir les faits.</p></div>
+        </details>
+        <details>
+          <summary>Ça s'est passé il y a longtemps. Est-ce utile ?</summary>
+          <div><p>Oui. Même ancienne, chaque situation aide à montrer l'ampleur et la répétition de ces pratiques.</p></div>
+        </details>
+        <details>
+          <summary>Que se passe-t-il après l'envoi ?</summary>
+          <div><p>Si vous avez demandé à être recontacté·e, un membre du collectif revient vers vous rapidement, par le moyen que vous avez choisi. Sinon, votre témoignage est simplement enregistré.</p></div>
+        </details>
+        <details>
+          <summary>C'est urgent : je suis convoqué·e ou menacé·e de sanction.</summary>
+          <div><p>Indiquez-le dans le formulaire, à la question « Quelque chose à ajouter ? », et <a href={url('contact?motif=conseil')}>écrivez-nous</a> aussi directement. Ne refusez pas un ordre sans nous en avoir parlé.</p></div>
+        </details>
+        <details>
+          <summary>Que deviennent mes données ?</summary>
+          <div><p>Les réponses peuvent révéler des convictions religieuses : ce sont des données sensibles au sens du RGPD. C'est pourquoi le formulaire vous demande un consentement explicite. Elles sont stockées sur le compte Google du collectif. <a href={url('mentions-legales#confidentialite')}>En savoir plus</a></p></div>
+        </details>
       </div>
+      <p style="margin-top:2rem">
+        Pour aller plus loin : nos <a href={url('ressources/reperes-port-du-calot')}>repères sur le port du calot</a> et le récit de
+        <a href={url('actions/2026-10-affaire-calot-jugement')}>l'affaire de Majdouline</a>.
+      </p>
     </div>
   </section>
 </Base>

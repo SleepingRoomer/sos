@@ -4,6 +4,10 @@ date: 2026-10-27
 type: Affaire suivie
 resume: "Le tribunal administratif de Paris a annulé les 8 mois d'exclusion prononcés par l'AP-HP contre Majdouline, sanctionnée pour le port du calot. Le collectif était à ses côtés."
 une: true
+couverture:
+  surtitre: "Affaire du calot"
+  titre: "Le combat n'est pas [terminé] !"
+visuel: /img/instagram/calot-jugement.jpg
 ---
 
 Le 27 octobre 2026, le tribunal administratif de Paris a annulé les 8 mois d'exclusion que l'AP-HP avait infligés à Majdouline pour le port du calot. Le tribunal a jugé la sanction disproportionnée. Sa carrière doit être reconstituée, avec tout ce que cela implique.

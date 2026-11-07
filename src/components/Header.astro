@@ -29,7 +29,10 @@ const estActif = (href: string) => {
           ))
         }
       </ul>
-      <a class="bouton" href={url('temoigner')} aria-current={estActif('temoigner') ? 'page' : undefined}>Témoigner</a>
+      <div class="menu__boutons">
+        <a class="bouton bouton--contour" href={url('nous-rejoindre')} aria-current={estActif('nous-rejoindre') ? 'page' : undefined}>Nous rejoindre</a>
+        <a class="bouton" href={url('temoigner')} aria-current={estActif('temoigner') ? 'page' : undefined}>Témoigner</a>
+      </div>
     </nav>
   </div>
 </header>

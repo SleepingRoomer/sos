@@ -3,14 +3,14 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import Carte from '../components/Carte.astro';
-import { SITE, mailto } from '../config';
+import { SITE } from '../config';
 import { url } from '../utils';
 
 const communiques = (await getCollection('actions', ({ data }) => !data.brouillon && data.type === 'Communiqué')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
 );
 
-const presentation = `Soigner ou Saigner (SOS) est un collectif de soignant·es qui lutte contre les discriminations dans la santé, notamment l'islamophobie. Il recueille les témoignages de patient·es, de soignant·es et d'étudiant·es en santé, les accompagne (écoute, soutien moral, aide juridique au cas par cas), documente les pratiques discriminatoires et produit des ressources de sensibilisation. Contact : ${SITE.email} – Instagram : ${SITE.instagram.pseudo}`;
+const presentation = `Soigner ou Saigner (SOS) est un collectif de soignant·es et de patient·es qui lutte contre les discriminations dans la santé : islamophobie, racisme, antisémitisme et xénophobie. Il recueille les témoignages de patient·es, de soignant·es et d'étudiant·es en santé, les accompagne (écoute, soutien moral, aide juridique au cas par cas), documente les pratiques discriminatoires et produit des ressources de sensibilisation. Contact : ${SITE.email} – Instagram : ${SITE.instagram.pseudo}`;
 
 const logos = [
   { fichier: 'img/logo-sos.png', nom: 'Logo couleur', fond: '#ffffff' },
@@ -39,7 +39,7 @@ const logos = [
           Précisez votre média, votre sujet et votre échéance : nous revenons vers vous au plus vite. Les personnes
           que nous mettons en relation avec vous peuvent demander l'anonymat ; merci de le respecter.
         </p>
-        <a class="bouton" href={mailto('Demande presse')}>Écrire au collectif</a>
+        <a class="bouton" href={url('contact?motif=presse')}>Écrire au collectif</a>
       </div>
       <div>
         <h2 style="font-size:1.3rem">Le collectif en quelques lignes</h2>

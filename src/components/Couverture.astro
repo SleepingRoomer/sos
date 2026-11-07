@@ -1,0 +1,30 @@
+---
+// Visuel typographique dans la DA des carrousels Instagram :
+// surtitre en haut à gauche, sigle à droite, titre en capitales entre deux filets,
+// mots en rouge entre crochets : « Port du [calot] à l'hôpital ».
+import { url } from '../utils';
+interface Props {
+  titre: string;
+  surtitre?: string;
+  bas?: string;
+  format?: 'carte' | 'carre' | 'portrait';
+}
+const { titre, surtitre, bas, format = 'carte' } = Astro.props;
+const morceaux = titre.split(/(\[[^\]]+\])/).filter(Boolean).map((m) => ({
+  rouge: m.startsWith('['),
+  texte: m.replace(/^\[|\]$/g, ''),
+}));
+---
+
+<div class={`couverture couverture--${format}`} aria-hidden="true">
+  <div class="couverture__in">
+  <div class="couverture__haut">
+    <span class="couverture__surtitre">{surtitre}</span>
+    <img src={url('img/logo-sos-sigle.png')} alt="" class="couverture__sigle" />
+  </div>
+  <div class="couverture__titre">
+    {morceaux.map((m) => (m.rouge ? <span class="rouge">{m.texte}</span> : m.texte))}
+  </div>
+  {bas ? <div class="couverture__bas">{bas}</div> : <div />}
+  </div>
+</div>

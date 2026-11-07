@@ -1,0 +1,47 @@
+---
+// Boutons de partage sans script tiers : WhatsApp, copier le lien, partage natif du téléphone.
+import Icone from './Icone.astro';
+interface Props {
+  titre: string;
+}
+const { titre } = Astro.props;
+const lien = new URL(Astro.url.pathname, Astro.site).toString();
+const whatsapp = `https://wa.me/?text=${encodeURIComponent(`${titre} – ${lien}`)}`;
+---
+
+<div class="partage" data-partage data-titre={titre} data-lien={lien}>
+  <span class="partage__label">Partager</span>
+  <a class="partage__bouton" href={whatsapp} target="_blank" rel="noopener">
+    <Icone nom="bulle" taille={18} /> WhatsApp
+  </a>
+  <button class="partage__bouton" type="button" data-copier-lien>
+    <Icone nom="lien" taille={18} /> <span>Copier le lien</span>
+  </button>
+  <button class="partage__bouton" type="button" data-partage-natif hidden>
+    <Icone nom="partage" taille={18} /> Autre
+  </button>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-partage]').forEach((bloc) => {
+    const { titre = '', lien = '' } = bloc.dataset;
+    const copier = bloc.querySelector<HTMLButtonElement>('[data-copier-lien]');
+    copier?.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(lien);
+        const texte = copier.querySelector('span');
+        if (texte) {
+          texte.textContent = 'Lien copié !';
+          setTimeout(() => (texte.textContent = 'Copier le lien'), 2000);
+        }
+      } catch {
+        window.prompt('Copiez le lien :', lien);
+      }
+    });
+    const natif = bloc.querySelector<HTMLButtonElement>('[data-partage-natif]');
+    if (natif && 'share' in navigator) {
+      natif.hidden = false;
+      natif.addEventListener('click', () => navigator.share({ title: titre, url: lien }).catch(() => {}));
+    }
+  });
+</script>

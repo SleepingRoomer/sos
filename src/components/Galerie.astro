@@ -1,0 +1,24 @@
+---
+import { INSTAGRAM, SITE } from '../config';
+import { url } from '../utils';
+---
+
+<section class="section" aria-labelledby="instagram">
+  <div class="conteneur">
+    <div class="entete-section">
+      <h2 id="instagram" class="filets">Sur Instagram</h2>
+      <a class="lien-fleche" href={SITE.instagram.url} rel="noopener">Suivre {SITE.instagram.pseudo}</a>
+    </div>
+    <ul class="galerie">
+      {
+        INSTAGRAM.map((p) => (
+          <li>
+            <a href={SITE.instagram.url} rel="noopener">
+              <img src={url(p.image)} alt={p.alt} width="400" height="500" loading="lazy" />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

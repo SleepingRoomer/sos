@@ -1,0 +1,18 @@
+---
+// Page affichée après un envoi du formulaire de contact quand JavaScript est désactivé.
+import Base from '../../layouts/Base.astro';
+import { url } from '../../utils';
+---
+
+<Base titre="Message envoyé">
+  <section class="section">
+    <div class="conteneur-texte">
+      <h1><span class="filets">Merci !</span></h1>
+      <p class="chapo">Votre message est bien parti. Nous vous répondons au plus vite.</p>
+      <div class="boutons">
+        <a class="bouton" href={url()}>Retour à l'accueil</a>
+        <a class="bouton bouton--contour" href={url('actions')}>Voir nos actions</a>
+      </div>
+    </div>
+  </section>
+</Base>

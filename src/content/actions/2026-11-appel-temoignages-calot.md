@@ -4,6 +4,10 @@ date: 2026-11-04
 type: Campagne
 resume: "Remarques, pressions, convocations, sanctions… Le collectif lance un appel à témoignages anonyme pour documenter ces situations et soutenir les personnes concernées."
 une: true
+couverture:
+  surtitre: "Port du calot à l'hôpital"
+  titre: "Ne laissons rien [passer] !"
+visuel: /img/instagram/calot-appel-temoignages.jpg
 ---
 
 Remarques, pressions, convocations, menaces de sanction, stages pénalisés : trop de soignant·es et d'étudiant·es en santé vivent ces situations en silence parce qu'ils et elles portent un calot. **Ce n'est ni anodin, ni normal.** Ces situations peuvent constituer des discriminations, avec des conséquences bien réelles sur la santé, les études et les carrières des personnes concernées.

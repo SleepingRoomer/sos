@@ -4,6 +4,9 @@ date: 2026-10-19
 type: Bibliographie
 public: "Étudiant·es en santé, internes, soignant·es, enseignant·es"
 resume: "Des sources pour comprendre pourquoi le soin n'est jamais « hors du politique », et comment les discriminations s'y fabriquent : textes fondateurs, études françaises, cadres pour la formation."
+couverture:
+  surtitre: "Bibliographie"
+  titre: "La neutralité [médicale] en question"
 ---
 
 On apprend souvent aux soignant·es qu'un bon professionnel « ne fait pas de politique ». Ces lectures montrent que cette neutralité est elle-même apprise, et qu'elle peut servir à taire les causes des inégalités de santé. Elles distinguent deux choses : l'**impartialité dans le soin**, qui est une exigence, et le **silence face aux causes**, qui n'en est pas une.

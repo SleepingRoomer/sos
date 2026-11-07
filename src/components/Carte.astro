@@ -1,4 +1,5 @@
 ---
+import Couverture from './Couverture.astro';
 import { dateFr, isoDate, url } from '../utils';
 interface Props {
   href: string;
@@ -8,13 +9,20 @@ interface Props {
   date: Date;
   image?: string;
   imageAlt?: string;
+  couverture?: { titre: string; surtitre?: string; bas?: string };
   suite?: string;
 }
-const { href, titre, resume, type, date, image, imageAlt = '', suite = 'Lire la suite' } = Astro.props;
+const { href, titre, resume, type, date, image, imageAlt = '', couverture, suite = 'Lire la suite' } = Astro.props;
 ---
 
 <a class="carte" href={url(href)} data-type={type}>
-  {image && <img class="carte__image" src={url(image)} alt={imageAlt} loading="lazy" />}
+  {
+    image ? (
+      <img class="carte__image" src={url(image)} alt={imageAlt} loading="lazy" />
+    ) : (
+      <Couverture titre={couverture?.titre ?? titre} surtitre={couverture?.surtitre ?? type} bas={couverture?.bas} />
+    )
+  }
   <div class="carte__corps">
     <div class="carte__meta">
       <span class="etiquette">{type}</span>

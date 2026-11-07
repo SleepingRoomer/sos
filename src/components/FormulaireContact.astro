@@ -1,0 +1,115 @@
+---
+// Formulaire de contact : envoi par e-mail via FormSubmit (pas de serveur à gérer).
+// Le motif peut être prérempli avec l'adresse contact/?motif=presse
+import { CONTACT, SITE } from '../config';
+import { url } from '../utils';
+import Icone from './Icone.astro';
+const merci = new URL(url('contact/merci'), Astro.site).toString();
+---
+
+<form class="contact-form" id="formulaire" action={CONTACT.envoiSansJs} method="POST" data-contact data-envoi={CONTACT.envoi}>
+  <input type="hidden" name="_subject" value="[Site SOS] Nouveau message" data-sujet />
+  <input type="hidden" name="_template" value="table" />
+  <input type="hidden" name="_captcha" value="false" />
+  <input type="hidden" name="_next" value={merci} />
+  <p class="piege" aria-hidden="true">
+    <label>Ne pas remplir <input type="text" name="_honey" tabindex="-1" autocomplete="off" /></label>
+  </p>
+
+  <div class="champ">
+    <label for="motif">Objet de votre message</label>
+    <select id="motif" name="Motif" required>
+      {CONTACT.motifs.map((m) => <option value={m.label} data-id={m.id}>{m.label}</option>)}
+    </select>
+  </div>
+
+  <div class="champs-2">
+    <div class="champ">
+      <label for="nom">Nom et prénom (ou pseudo)</label>
+      <input id="nom" name="Nom" type="text" required autocomplete="name" />
+    </div>
+    <div class="champ">
+      <label for="email">E-mail</label>
+      <input id="email" name="email" type="email" required autocomplete="email" />
+    </div>
+  </div>
+
+  <div class="champ">
+    <label for="structure">Média, faculté, association… <span class="facultatif">(facultatif)</span></label>
+    <input id="structure" name="Structure" type="text" autocomplete="organization" />
+  </div>
+
+  <div class="champ">
+    <label for="message">Votre message</label>
+    <textarea id="message" name="Message" rows="7" required></textarea>
+    <p class="aide" data-aide-conseil hidden>
+      Pour une situation de discrimination, ne donnez ici que l'essentiel. Pour un récit détaillé et anonyme, utilisez
+      plutôt <a href={url('temoigner')}>le formulaire de témoignage</a>.
+    </p>
+  </div>
+
+  <div class="champ champ--case">
+    <input id="accord" name="Accord" type="checkbox" value="Oui" required />
+    <label for="accord">
+      J'accepte que mes informations soient utilisées pour répondre à ma demande. Elles ne sont ni publiées ni
+      transmises. <a href={url('mentions-legales#confidentialite')}>En savoir plus</a>
+    </label>
+  </div>
+
+  <div class="contact-form__envoi">
+    <button class="bouton" type="submit"><Icone nom="mail" taille={18} /> Envoyer le message</button>
+    <p class="contact-form__statut" role="status" aria-live="polite" data-statut></p>
+  </div>
+  <p class="aide">Le formulaire ne fonctionne pas ? Écrivez-nous directement à <strong>{SITE.email}</strong>.</p>
+</form>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-contact]');
+  if (form) {
+    const motif = form.querySelector<HTMLSelectElement>('#motif')!;
+    const aide = form.querySelector<HTMLElement>('[data-aide-conseil]');
+    const sujet = form.querySelector<HTMLInputElement>('[data-sujet]')!;
+    const statut = form.querySelector<HTMLElement>('[data-statut]')!;
+    const bouton = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+
+    const majAide = () => {
+      const id = motif.selectedOptions[0]?.dataset.id;
+      if (aide) aide.hidden = id !== 'conseil';
+    };
+    const demande = new URLSearchParams(location.search).get('motif');
+    if (demande) {
+      const option = [...motif.options].find((o) => o.dataset.id === demande);
+      if (option) motif.value = option.value;
+    }
+    majAide();
+    motif.addEventListener('change', majAide);
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const nom = (form.querySelector<HTMLInputElement>('#nom')?.value ?? '').trim();
+      sujet.value = `[Site SOS] ${motif.value} – ${nom}`;
+      bouton.disabled = true;
+      statut.className = 'contact-form__statut';
+      statut.textContent = 'Envoi en cours…';
+      try {
+        const reponse = await fetch(form.dataset.envoi!, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(form),
+        });
+        const json = await reponse.json().catch(() => ({}));
+        if (!reponse.ok || json.success === 'false' || json.success === false) throw new Error(json.message);
+        form.reset();
+        majAide();
+        statut.classList.add('contact-form__statut--ok');
+        statut.textContent = 'Merci, votre message est bien parti. Nous vous répondons au plus vite.';
+      } catch {
+        statut.classList.add('contact-form__statut--erreur');
+        statut.textContent =
+          "L'envoi n'a pas fonctionné. Réessayez dans un instant, ou écrivez-nous directement par e-mail.";
+      } finally {
+        bouton.disabled = false;
+      }
+    });
+  }
+</script>

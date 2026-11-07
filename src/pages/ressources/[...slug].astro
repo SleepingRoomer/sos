@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import Partage from '../../components/Partage.astro';
 import { dateFr, isoDate, url } from '../../utils';
 
 export async function getStaticPaths() {
@@ -46,6 +47,7 @@ const d = entree.data;
     <div class="section" style="padding-top:2.5rem">
       <div class="conteneur-texte prose">
         <Content />
+        <Partage titre={d.titre} />
       </div>
     </div>
   </article>

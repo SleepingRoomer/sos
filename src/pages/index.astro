@@ -2,7 +2,8 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import Carte from '../components/Carte.astro';
-import { SITE } from '../config';
+import Icone from '../components/Icone.astro';
+import Galerie from '../components/Galerie.astro';
 import { url } from '../utils';
 
 const actions = (await getCollection('actions', ({ data }) => !data.brouillon))
@@ -17,15 +18,15 @@ const ressources = (await getCollection('ressources', ({ data }) => !data.brouil
   <section class="une">
     <div class="conteneur une__grille">
       <div>
-        <span class="surtitre">Collectif de soignant·es</span>
-        <h1>Contre les discriminations <span class="rouge">dans la santé</span></h1>
+        <span class="surtitre">Soignant·es et patient·es se mobilisent</span>
+        <h1>Face aux discriminations <span class="rouge">dans le soin</span></h1>
         <p class="chapo">
-          {SITE.nom} lutte contre les discriminations dans le soin, notamment l'islamophobie : envers les patient·es
-          comme envers les soignant·es et les étudiant·es en santé.
+          Soigner ou Saigner est un collectif de soignant·es et de patient·es né d'un constat alarmant : la santé est
+          un espace menacé par l'islamophobie, le racisme, l'antisémitisme et la xénophobie.
         </p>
         <div class="boutons">
           <a class="bouton" href={url('temoigner')}>Témoigner</a>
-          <a class="bouton bouton--contour" href={url('le-collectif')}>Découvrir le collectif</a>
+          <a class="bouton bouton--contour" href={url('nous-rejoindre')}>Nous rejoindre</a>
         </div>
       </div>
 
@@ -46,36 +47,70 @@ const ressources = (await getCollection('ressources', ({ data }) => !data.brouil
     </div>
   </section>
 
-  <section class="section section--pale" aria-labelledby="missions">
+  <section class="menaces" aria-labelledby="menaces">
     <div class="conteneur">
-      <h2 id="missions" class="filets">Ce que nous faisons</h2>
-      <div class="grille grille-3 piliers">
-        <div class="pilier">
-          <h3>Écouter et soutenir</h3>
-          <p>
-            Nous recueillons les témoignages et accompagnons les personnes concernées : écoute, soutien moral et aide
-            juridique au cas par cas.
-          </p>
-        </div>
-        <div class="pilier">
-          <h3>Documenter et dénoncer</h3>
-          <p>
-            Chaque situation documentée rend visible l'ampleur des pratiques discriminatoires. Nous suivons les affaires
-            et refusons que l'inacceptable devienne la norme.
-          </p>
-        </div>
-        <div class="pilier">
-          <h3>Sensibiliser et former</h3>
-          <p>
-            Nous produisons des ressources pour les étudiant·es, les soignant·es et les équipes, et intervenons pour
-            interroger le mythe d'un soin «&nbsp;neutre&nbsp;».
-          </p>
-        </div>
+      <h2 id="menaces" class="menaces__intro">La santé est un espace menacé par</h2>
+      <ul class="menaces__liste">
+        <li>L'islamophobie</li>
+        <li>Le racisme</li>
+        <li>L'antisémitisme</li>
+        <li>La xénophobie</li>
+      </ul>
+      <div class="menaces__appels">
+        <p><Icone nom="coeur" /> Protégeons nos patient·es</p>
+        <p><Icone nom="soutien" /> Protégeons nos soignant·es</p>
+        <p><Icone nom="groupe" /> Préservons notre système de santé</p>
       </div>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="dernieres-actions">
+  <section class="section section--pale" aria-labelledby="missions">
+    <div class="conteneur">
+      <h2 id="missions" class="filets">Avec le collectif SOS, vous serez</h2>
+      <div class="grille grille-3">
+        <div class="carte-picto">
+          <span class="picto"><Icone nom="megaphone" taille={28} /></span>
+          <h3>Sensibilisé·es</h3>
+          <p>
+            Aux discriminations dans le soin : comprendre comment elles se produisent, et pourquoi elles ne sont jamais
+            anodines.
+          </p>
+        </div>
+        <div class="carte-picto">
+          <span class="picto picto--rouge"><Icone nom="formation" taille={28} /></span>
+          <h3>Formé·es</h3>
+          <p>Aux réflexes à avoir : garder des traces, connaître ses droits, ne pas rester seul·e face à la hiérarchie.</p>
+        </div>
+        <div class="carte-picto">
+          <span class="picto"><Icone nom="soutien" taille={28} /></span>
+          <h3>Soutenu·es</h3>
+          <p>Dans vos démarches : écoute, soutien moral et aide juridique au cas par cas, selon votre situation.</p>
+        </div>
+      </div>
+      <p style="margin-top:2rem">
+        <strong>Alertez-nous</strong> sur toute situation discriminatoire dont vous seriez témoin dans un contexte de soins.
+        <a href={url('temoigner')}>Témoigner</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="citation" aria-label="Témoignage">
+    <div class="conteneur">
+      <figure class="citation__bloc">
+        <span class="citation__guillemet" aria-hidden="true">“</span>
+        <div>
+          <blockquote>Eh ben voilà, t'es bien plus <span class="rouge">belle</span> comme ça</blockquote>
+          <figcaption>
+            <strong>Une infirmière, après avoir arraché le calot d'une étudiante en médecine en stage.</strong> Extrait de notre
+            série « Islamophobie à l'hôpital : le récit des soignant·es ».
+            <a href={url('actions/2026-02-recit-des-soignants')}>Lire la série</a>
+          </figcaption>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section section--pale" aria-labelledby="dernieres-actions">
     <div class="conteneur">
       <div class="entete-section">
         <h2 id="dernieres-actions" class="filets">Nos actions</h2>
@@ -84,6 +119,41 @@ const ressources = (await getCollection('ressources', ({ data }) => !data.brouil
       <div class="grille grille-3">
         {actions.map((a) => <Carte href={`actions/${a.id}`} {...a.data} />)}
       </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="chiffres">
+    <div class="conteneur">
+      <h2 id="chiffres" class="filets">Ce que disent les chiffres</h2>
+      <div class="chiffres">
+        <div class="chiffre">
+          <span class="chiffre__valeur">15 %</span>
+          <p>des psychiatres, 11 % des gynécologues et 9 % des dentistes testés ont opposé un refus de soins discriminatoire.</p>
+          <small>Défenseur des droits, testing auprès de 1 500 cabinets, 2019 (refus visant surtout les bénéficiaires de la CMU-C ou de l'ACS).</small>
+        </div>
+        <div class="chiffre">
+          <span class="chiffre__valeur">54 %</span>
+          <p>des femmes médecins en activité ont déjà été victimes de violences sexistes et sexuelles, contre 5 % des hommes.</p>
+          <small>Enquête du Conseil national de l'Ordre des médecins, 2024.</small>
+        </div>
+        <div class="chiffre">
+          <span class="chiffre__valeur">1 sur 2</span>
+          <p>des étudiant·es en médecine déclare des symptômes anxieux.</p>
+          <small>Enquête santé mentale ANEMF, ISNI et ISNAR-IMG, 2024.</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="rejoindre" aria-labelledby="rejoindre">
+    <div class="conteneur bandeau">
+      <div>
+        <h2 id="rejoindre">Rejoignez le collectif</h2>
+        <p>
+          Étudiant·e ou professionnel·le de santé, juriste, communicant·e : vos compétences comptent. Chaque action compte.
+        </p>
+      </div>
+      <a class="bouton bouton--blanc" href={url('nous-rejoindre')}>Nous rejoindre</a>
     </div>
   </section>
 
@@ -98,6 +168,8 @@ const ressources = (await getCollection('ressources', ({ data }) => !data.brouil
       </div>
     </div>
   </section>
+
+  <Galerie />
 
   <section class="section section--bleue" aria-labelledby="presse">
     <div class="conteneur bandeau">

@@ -1,0 +1,81 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Formulaire from '../components/Formulaire.astro';
+import Icone from '../components/Icone.astro';
+import { FORMULAIRES } from '../config';
+import { url } from '../utils';
+
+const competences = [
+  { icone: 'juridique', titre: 'Juridique', texte: 'Droit de la santé, droit de la fonction publique, droits humains : pour éclairer les situations et orienter les personnes.' },
+  { icone: 'megaphone', titre: 'Communication, pédagogie', texte: 'Animation, prise de parole, création de visuels et de supports, réseaux sociaux.' },
+  { icone: 'ecoute', titre: 'Écoute active', texte: "Psychologie, accompagnement : pour recevoir les témoignages et soutenir celles et ceux qui nous écrivent." },
+  { icone: 'projet', titre: 'Gestion de projet', texte: 'Organiser une campagne, un événement, une intervention en fac, coordonner une équipe.' },
+  { icone: 'recherche', titre: 'Recherche, analyse', texte: 'Documenter les discriminations, analyser les témoignages, trouver et vérifier les sources.' },
+  { icone: 'main', titre: 'Et le reste !', texte: "Pas d'expertise particulière ? Votre temps, votre regard et votre réseau comptent tout autant." },
+] as const;
+---
+
+<Base
+  titre="Nous rejoindre"
+  description="Soignant·e, étudiant·e en santé, juriste, communicant·e : rejoignez le collectif Soigner ou Saigner pour combattre les discriminations dans la santé."
+>
+  <PageHeader
+    surtitre="Chaque action compte"
+    titre="Nous rejoindre"
+    chapo="Rejoignez le collectif et aidez-nous à combattre les discriminations dans la santé. Étudiant·e ou professionnel·le de santé, chacun·e peut agir à sa mesure, quelques heures par mois suffisent."
+  />
+
+  <section class="section section--pale" aria-labelledby="competences">
+    <div class="conteneur">
+      <h2 id="competences" class="filets">Vos compétences nous sont utiles</h2>
+      <div class="grille grille-3 grille-3-fixe">
+        {
+          competences.map((c, i) => (
+            <div class="carte-picto">
+              <span class={`picto${i % 2 ? ' picto--rouge' : ''}`}>
+                <Icone nom={c.icone} taille={26} />
+              </span>
+              <h3>{c.titre}</h3>
+              <p>{c.texte}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="comment">
+    <div class="conteneur">
+      <h2 id="comment" class="filets">Comment ça se passe</h2>
+      <ol class="etapes">
+        <li>
+          <h3>Vous remplissez le formulaire</h3>
+          <p>Vos envies, vos compétences et vos disponibilités. Comptez une dizaine de minutes.</p>
+        </li>
+        <li>
+          <h3>Nous vous recontactons</h3>
+          <p>Un membre du collectif revient vers vous pour faire connaissance et répondre à vos questions.</p>
+        </li>
+        <li>
+          <h3>Vous agissez avec nous</h3>
+          <p>Selon vos envies et votre temps : campagnes, écoute, ressources, interventions…</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="conteneur">
+      <Formulaire
+        titre={FORMULAIRES.adhesion.titre}
+        url={FORMULAIRES.adhesion.url}
+        hauteur={FORMULAIRES.adhesion.hauteur}
+        texte="Le formulaire est hébergé par Google Forms et ne s'affiche qu'à votre demande. Vos coordonnées ne servent qu'à vous recontacter."
+      />
+      <p style="margin-top:1.5rem">
+        Une question avant de vous lancer, une appréhension ? <a href={url('contact?motif=autre')}>Écrivez-nous</a>, on vous répond.
+      </p>
+    </div>
+  </section>
+</Base>

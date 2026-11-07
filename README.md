@@ -18,8 +18,12 @@ Fait avec [Astro](https://astro.build). Les contenus sont de simples fichiers te
 ---
 titre: "Titre de l'action"
 date: 2026-12-01
-type: Intervention   # Campagne, Affaire suivie, Intervention, Communiqué ou Événement
+type: Intervention   # Campagne, Affaire suivie, Intervention, Communiqué, Événement ou Série
 resume: "Une ou deux phrases qui apparaissent sur les cartes."
+couverture:          # visuel de la carte, dans la DA des carrousels
+  surtitre: "Intervention en fac"
+  titre: "Le soin n'est pas [neutre] !"   # mots en rouge entre crochets
+visuel: /img/instagram/mon-visuel.jpg   # facultatif : aperçu du post Instagram (public/img/instagram/)
 # image: /img/actions/mon-image.jpg   # facultatif : déposer l'image dans public/img/actions/
 # imageAlt: "Description de l'image"
 # lien: https://www.instagram.com/p/...   # facultatif : lien vers le post
@@ -55,8 +59,15 @@ Contenu de la ressource.
 
 ## Modifier les informations générales
 
-E-mail, Instagram, lien du formulaire et menu : tout est dans `src/config.ts`.
-Pour changer de formulaire (nouvelle campagne), remplacez `url` et `embed` (même lien suivi de `?embedded=true`).
+E-mail, Instagram, formulaires Google, motifs du formulaire de contact, menu et galerie Instagram de l'accueil :
+tout est dans `src/config.ts`. Pour une nouvelle campagne de témoignages, remplacez simplement l'`url` du formulaire.
+
+## Formulaire de contact (à activer une fois)
+
+Les messages de la page Contact sont envoyés par e-mail via [FormSubmit](https://formsubmit.co), sans compte à créer.
+**Au tout premier message envoyé depuis le site en ligne**, FormSubmit envoie un e-mail « Action required: Activate
+FormSubmit » à soigner.ou.saigner@gmail.com : cliquez sur le lien qu'il contient. Les messages suivants arrivent
+directement dans la boîte mail. Pensez à vérifier les spams.
 
 ## Mise en ligne (une seule fois)
 

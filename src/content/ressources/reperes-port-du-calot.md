@@ -4,6 +4,9 @@ date: 2026-11-06
 type: Fiche pratique
 public: "Soignant·es et étudiant·es en santé"
 resume: "Ce que disent les règles d'hygiène, ce qu'a jugé le tribunal dans l'affaire de Majdouline, et les bons réflexes si vous êtes mis·e en cause pour le port du calot."
+couverture:
+  surtitre: "Fiche pratique"
+  titre: "Port du [calot] : vos repères"
 ---
 
 Cette fiche donne des repères généraux. Elle ne remplace pas un conseil juridique adapté à votre situation : en cas de doute, [contactez le collectif](/contact) avant d'agir.
