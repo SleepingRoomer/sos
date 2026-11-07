@@ -24,6 +24,4 @@ Soignant·e, étudiant·e en santé, patient·e : si vous avez vécu ou été t�
 - une aide juridique au cas par cas, selon votre situation ;
 - un formulaire anonyme, de 5 à 10 minutes. Vos coordonnées ne sont demandées que si vous souhaitez être recontacté·e.
 
-> **Avant de refuser un ordre de votre hiérarchie, parlez-nous-en.** Un refus d'obéir peut être retenu comme une faute, même face à un ordre illégal.
-
 [Témoigner maintenant](/temoigner)

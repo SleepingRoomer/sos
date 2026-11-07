@@ -34,5 +34,4 @@ Remarques répétées, pressions pour retirer le calot, convocations, menaces de
 
 - **Ne restez pas seul·e.** Parlez-en au collectif, à un·e représentant·e syndical·e ou à une personne de confiance.
 - **Gardez des traces.** Notez les dates, les propos tenus, les personnes présentes ; conservez les e-mails, convocations et courriers.
-- **Avant de refuser un ordre de votre hiérarchie, parlez-nous-en.** Un refus d'obéir peut être retenu comme une faute, même face à un ordre illégal.
 - **Témoignez.** Chaque témoignage aide à documenter ces pratiques. [Accéder au formulaire anonyme](/temoigner).
