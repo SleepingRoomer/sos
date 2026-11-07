@@ -47,6 +47,7 @@ export const NAV = [
   { href: 'le-collectif', label: 'Le collectif' },
   { href: 'actions', label: 'Actions' },
   { href: 'ressources', label: 'Ressources' },
+  { href: 'aide', label: 'Aide' },
   { href: 'presse', label: 'Presse' },
   { href: 'contact', label: 'Contact' },
 ];

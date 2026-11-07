@@ -1,0 +1,150 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Icone from '../components/Icone.astro';
+import { url } from '../utils';
+
+// Dispositifs vérifiés en novembre 2026. À relire de temps en temps : numéros et horaires peuvent changer.
+// Évite qu'un numéro de téléphone soit coupé en fin de ligne.
+const insecable = (t: string) => t.replace(/(\d) (?=\d)/g, '$1\u00a0');
+
+const blocs = [
+  {
+    id: 'signaler',
+    icone: 'megaphone',
+    titre: 'Signaler une discrimination',
+    texte:
+      "Victime ou témoin, à l'hôpital, en stage ou en formation : les juristes du Défenseur des droits vous écoutent, vous conseillent et peuvent ouvrir une enquête ou proposer une médiation. C'est gratuit et confidentiel.",
+    contacts: [
+      { label: 'Défenseur des droits', valeur: '39 28', lien: 'tel:3928', note: 'en semaine, prix d’un appel local' },
+      { label: 'Tchat et signalement en ligne', valeur: 'antidiscriminations.fr', lien: 'https://www.antidiscriminations.fr/' },
+      { label: 'Par courrier, sans timbre', valeur: 'Défenseur des droits, Libre réponse 71120, 75342 Paris Cedex 07' },
+    ],
+    plus: "L'annuaire d'antidiscriminations.fr recense aussi les délégué·es près de chez vous et les associations partenaires.",
+  },
+  {
+    id: 'juridique',
+    icone: 'juridique',
+    titre: 'Un conseil juridique gratuit',
+    texte:
+      "Avant toute démarche, faites le point sur vos droits avec un·e professionnel·le du droit. Les point-justice proposent des consultations gratuites, notamment avec des avocat·es.",
+    contacts: [
+      { label: 'Numéro de l’accès au droit', valeur: '30 39', lien: 'tel:3039', note: 'gratuit et anonyme' },
+      { label: 'Trouver un point-justice', valeur: 'justice.fr', lien: 'https://www.justice.fr/' },
+    ],
+    plus:
+      "Soignant·e salarié·e ou agent·e public : les représentant·es du personnel et les syndicats de votre établissement peuvent aussi vous accompagner, parfois avec un·e avocat·e.",
+  },
+  {
+    id: 'ecoute',
+    icone: 'coeur',
+    titre: 'Être écouté·e, prendre soin de soi',
+    texte:
+      "Une discrimination laisse des traces. Des psychologues répondent spécifiquement aux soignant·es et aux étudiant·es, de façon anonyme, à toute heure.",
+    contacts: [
+      { label: 'Association SPS (soignant·es et étudiant·es)', valeur: '0 805 23 23 36', lien: 'tel:0805232336', note: '24 h/24, 7 j/7, gratuit et anonyme' },
+      { label: 'Numéro national de prévention du suicide', valeur: '31 14', lien: 'tel:3114', note: '24 h/24, 7 j/7, gratuit' },
+    ],
+    plus:
+      'Pensez aussi au service de santé étudiante de votre université, ou au service de santé au travail de votre établissement.',
+  },
+  {
+    id: 'patients',
+    icone: 'groupe',
+    titre: 'Patient·es : refus de soins, traitement discriminatoire',
+    texte:
+      "Un refus de soins ou un traitement différent en raison de votre origine, de votre religion, de votre couverture sociale (CSS, AME…) est interdit par la loi (article L.1110-3 du Code de la santé publique).",
+    contacts: [
+      { label: 'Dans un hôpital ou une clinique', valeur: 'La commission des usagers (CDU)', note: 'ses coordonnées sont affichées dans l’établissement et sur son site' },
+      { label: 'Refus de soins par un·e professionnel·le', valeur: 'Votre caisse d’assurance maladie (CPAM) ou l’Ordre professionnel concerné' },
+      { label: 'Dans tous les cas', valeur: 'Le Défenseur des droits, au 39 28', lien: 'tel:3928' },
+    ],
+  },
+  {
+    id: 'plainte',
+    icone: 'soutien',
+    titre: 'Porter plainte',
+    texte:
+      "La discrimination, les injures et les violences racistes ou religieuses sont des délits. Vous pouvez porter plainte dans un commissariat ou une gendarmerie, qui ne peuvent pas refuser de l'enregistrer, ou écrire directement au procureur de la République.",
+    contacts: [
+      { label: 'Contenus haineux en ligne', valeur: 'internet-signalement.gouv.fr (Pharos)', lien: 'https://www.internet-signalement.gouv.fr/' },
+      { label: 'Danger immédiat', valeur: '17 ou 112', lien: 'tel:112' },
+    ],
+    plus: 'Avant de porter plainte, gardez toutes les traces : dates, propos exacts, témoins, messages, convocations.',
+  },
+] as const;
+---
+
+<Base
+  titre="Où trouver de l'aide"
+  description="Discrimination dans le soin : les numéros et structures pour signaler, être conseillé·e, écouté·e ou porter plainte. Soignant·es, étudiant·es et patient·es."
+>
+  <PageHeader
+    surtitre="Vous n'êtes pas seul·e"
+    titre="Où trouver de l'aide"
+    chapo="Soignant·e, étudiant·e ou patient·e : voici les structures qui peuvent vous écouter, vous conseiller et vous défendre. Le collectif peut aussi vous aider à vous orienter."
+  >
+    <nav class="sommaire" aria-label="Sur cette page">
+      {blocs.map((b) => <a href={`#${b.id}`}>{b.titre}</a>)}
+    </nav>
+  </PageHeader>
+
+  <section class="section section--pale">
+    <div class="conteneur aide-liste">
+      {
+        blocs.map((b, i) => (
+          <article class="aide-bloc" id={b.id}>
+            <div class="aide-bloc__tete">
+              <span class={`picto${i % 2 ? ' picto--rouge' : ''}`}>
+                <Icone nom={b.icone} taille={28} />
+              </span>
+              <h2>{b.titre}</h2>
+            </div>
+            <p class="aide-bloc__texte">{b.texte}</p>
+            <ul class="aide-contacts">
+              {b.contacts.map((c) => (
+                <li>
+                  <span class="aide-contacts__label">{c.label}</span>
+                  {'lien' in c && c.lien ? (
+                    <a class="aide-contacts__valeur" href={c.lien} rel={c.lien.startsWith('http') ? 'noopener' : undefined}>
+                      {insecable(c.valeur)}
+                    </a>
+                  ) : (
+                    <span class="aide-contacts__valeur aide-contacts__valeur--texte">{insecable(c.valeur)}</span>
+                  )}
+                  {'note' in c && c.note && <span class="aide-contacts__note">{c.note}</span>}
+                </li>
+              ))}
+            </ul>
+            {'plus' in b && b.plus && <p class="aide-bloc__plus">{b.plus}</p>}
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="rejoindre" aria-labelledby="collectif-aide">
+    <div class="conteneur bandeau">
+      <div>
+        <h2 id="collectif-aide">Le collectif est à l'écoute</h2>
+        <p>
+          Vous ne savez pas par où commencer ? Racontez-nous ce qui s'est passé : nous vous aidons à y voir clair et à
+          trouver le bon interlocuteur. Avant de refuser un ordre de votre hiérarchie, parlez-nous-en.
+        </p>
+      </div>
+      <div class="boutons">
+        <a class="bouton bouton--blanc" href={url('temoigner')}>Témoigner</a>
+        <a class="bouton bouton--blanc" href={url('contact?motif=conseil')}>Demander conseil</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="conteneur-texte">
+      <p class="aide">
+        Informations vérifiées en novembre 2026. Une coordonnée a changé ou une structure manque ?
+        <a href={url('contact?motif=autre')}>Signalez-le-nous</a>.
+      </p>
+    </div>
+  </section>
+</Base>
