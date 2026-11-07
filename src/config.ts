@@ -31,7 +31,7 @@ export const FORMULAIRES = {
 // La clé d'accès s'obtient gratuitement sur https://web3forms.com avec l'adresse du collectif.
 // Elle est faite pour être publique (elle permet seulement d'envoyer vers cette adresse).
 export const CONTACT = {
-  cle: '',
+  cle: 'a3e7b930-c8b2-47a6-913e-4ba397595535',
   envoi: 'https://api.web3forms.com/submit',
   motifs: [
     { id: 'presse', label: 'Presse et médias' },
