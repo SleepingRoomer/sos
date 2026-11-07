@@ -98,15 +98,25 @@ const merci = new URL(url('contact/merci'), Astro.site).toString();
           body: new FormData(form),
         });
         const json = await reponse.json().catch(() => ({}));
-        if (!reponse.ok || json.success === 'false' || json.success === false) throw new Error(json.message);
+        const message = String(json.message ?? '');
+        if (/activ/i.test(message)) {
+          // Premier envoi : FormSubmit attend que le collectif clique sur le lien d'activation reçu par e-mail.
+          statut.classList.add('contact-form__statut--erreur');
+          statut.textContent =
+            "Le formulaire est en cours d'activation et votre message n'a pas pu être transmis. Écrivez-nous directement par e-mail en attendant.";
+          console.info('FormSubmit :', message);
+          return;
+        }
+        if (!reponse.ok || json.success === 'false' || json.success === false) throw new Error(message);
         form.reset();
         majAide();
         statut.classList.add('contact-form__statut--ok');
         statut.textContent = 'Merci, votre message est bien parti. Nous vous répondons au plus vite.';
-      } catch {
+      } catch (erreur) {
+        console.warn('Envoi du formulaire de contact :', erreur);
         statut.classList.add('contact-form__statut--erreur');
         statut.textContent =
-          "L'envoi n'a pas fonctionné. Réessayez dans un instant, ou écrivez-nous directement par e-mail.";
+          "L'envoi n'a pas fonctionné. Si vous utilisez un bloqueur de publicité, désactivez-le pour ce site et réessayez, ou écrivez-nous directement par e-mail.";
       } finally {
         bouton.disabled = false;
       }
