@@ -15,3 +15,10 @@ import { url } from '../utils';
     </div>
   </section>
 </Base>
+
+<script is:inline>
+  // Anciennes adresses (sleepingroomer.github.io/sos/…) : redirige vers la même page à la racine.
+  if (location.pathname.startsWith('/sos/') || location.pathname === '/sos') {
+    location.replace(location.pathname.replace(/^\/sos/, '') || '/');
+  }
+</script>
