@@ -4,6 +4,7 @@ import Base from '../layouts/Base.astro';
 import Carte from '../components/Carte.astro';
 import Icone from '../components/Icone.astro';
 import Galerie from '../components/Galerie.astro';
+import Agenda from '../components/Agenda.astro';
 import { url } from '../utils';
 
 const actions = (await getCollection('actions', ({ data }) => !data.brouillon))
@@ -119,6 +120,8 @@ const ressources = (await getCollection('ressources', ({ data }) => !data.brouil
       <div class="grille grille-3">
         {actions.map((a) => <Carte href={`actions/${a.id}`} {...a.data} />)}
       </div>
+      <h2 class="filets" style="margin-top:3.5rem">Agenda</h2>
+      <Agenda />
     </div>
   </section>
 

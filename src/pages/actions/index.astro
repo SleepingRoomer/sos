@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import Carte from '../../components/Carte.astro';
+import Agenda from '../../components/Agenda.astro';
 
 const actions = (await getCollection('actions', ({ data }) => !data.brouillon)).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
@@ -16,8 +17,16 @@ const types = [...new Set(actions.map((a) => a.data.type))];
     titre="Nos actions"
     chapo="Campagnes, affaires suivies, interventions et prises de position : ce que le collectif fait, au fil du temps."
   />
+  <section class="section section--pale" aria-labelledby="agenda" style="padding-block:2.5rem">
+    <div class="conteneur">
+      <h2 id="agenda" class="filets">Agenda</h2>
+      <Agenda />
+    </div>
+  </section>
+
   <section class="section" style="padding-top:2.5rem">
     <div class="conteneur">
+      <h2 class="filets">Ce que nous avons fait</h2>
       {
         types.length > 1 && (
           <div class="filtres" role="group" aria-label="Filtrer par type">
@@ -28,7 +37,7 @@ const types = [...new Set(actions.map((a) => a.data.type))];
           </div>
         )
       }
-      <div class="grille grille-3" data-liste>
+      <div class="grille grille-3 grille-3-fixe" data-liste>
         {actions.map((a) => <Carte href={`actions/${a.id}`} {...a.data} />)}
       </div>
       {actions.length === 0 && <p class="vide">Les premières actions arrivent bientôt.</p>}

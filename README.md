@@ -41,6 +41,12 @@ Suite du texte.
 
 Les actions de type **Communiqué** apparaissent aussi dans l'espace presse.
 
+### Ajouter une date à l'agenda
+
+Dans `src/content/agenda/`, copiez `exemple.md`, renommez-le, remplissez-le et mettez `brouillon: false`.
+Sans `date`, l'événement s'affiche « Bientôt ». Les événements passés disparaissent tout seuls.
+Tant qu'il n'y a aucun événement, l'agenda affiche « Prochainement ».
+
 ### Modèle de ressource
 
 ```markdown
@@ -85,11 +91,6 @@ npm install
 npm run dev     # aperçu sur http://localhost:4321/sos/
 npm run build   # génère le site dans dist/
 ```
-
-## À compléter
-
-- `src/pages/mentions-legales.astro` : statut du collectif et nom du ou de la directeur·rice de la publication (obligatoire).
-- Lien de dons ou d'adhésion, si le collectif en a un.
 
 ## Choix techniques
 

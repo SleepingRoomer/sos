@@ -47,4 +47,20 @@ const ressources = defineCollection({
   }),
 });
 
-export const collections = { actions, ressources };
+// Agenda : interventions et événements à venir.
+// Sans date, l'événement s'affiche « Prochainement ».
+const agenda = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/agenda' }),
+  schema: z.object({
+    titre: z.string(),
+    date: z.coerce.date().optional(),
+    heure: z.string().optional(), // ex. « 18 h 30 »
+    lieu: z.string().optional(), // ex. « Faculté de médecine de Lyon »
+    type: z.enum(['Intervention', 'Conférence', 'Atelier', 'Ciné-débat', 'Rassemblement', 'Événement']).default('Événement'),
+    resume: z.string(),
+    lien: z.string().url().optional(), // inscription, post Instagram…
+    brouillon: z.boolean().default(false),
+  }),
+});
+
+export const collections = { actions, ressources, agenda };

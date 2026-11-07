@@ -576,3 +576,18 @@ p { margin: 0 0 1em; }
 .partenaire__liens a { font-family: var(--titre); font-weight: 800; font-size: .88rem; word-break: break-word; }
 
 .aide-urgence { background: var(--bleu-pale); padding: 1rem 1.2rem; border-left: 5px solid var(--rouge); }
+
+/* ---------- Agenda ---------- */
+
+.agenda__liste { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem; }
+.agenda__item { display: grid; grid-template-columns: 5.5rem 1fr; gap: 1.4rem; background: var(--blanc); padding: 1.4rem; border-left: 6px solid var(--rouge); }
+.agenda__item h3 { margin: .5rem 0 .2rem; }
+.agenda__item p { margin: 0 0 .5rem; color: var(--gris); }
+.agenda__infos { font-weight: 700; color: var(--bleu) !important; }
+.agenda__date { background: var(--bleu); color: var(--blanc); display: grid; place-content: center; text-align: center; aspect-ratio: 1; font-family: var(--titre); }
+.agenda__jour { font-weight: 900; font-size: 2rem; line-height: 1; }
+.agenda__mois { font-weight: 800; font-size: .85rem; text-transform: uppercase; letter-spacing: .06em; }
+.agenda__vide { display: flex; gap: 1.2rem; align-items: start; background: var(--blanc); padding: 1.5rem; border-left: 6px solid var(--rouge); }
+.agenda__vide .picto { margin: 0; flex: none; }
+.agenda__vide h3 { text-transform: uppercase; margin-bottom: .3rem; }
+.agenda__vide p { margin: 0; color: var(--gris); }

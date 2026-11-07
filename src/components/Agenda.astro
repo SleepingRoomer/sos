@@ -1,0 +1,68 @@
+---
+// Liste des événements à venir. S'il n'y en a aucun, affiche « Prochainement ».
+import { getCollection } from 'astro:content';
+import Icone from './Icone.astro';
+import { SITE } from '../config';
+import { isoDate, url } from '../utils';
+
+const aujourdhui = new Date(new Date().toISOString().slice(0, 10));
+const evenements = (await getCollection('agenda', ({ data }) => !data.brouillon))
+  .filter((e) => !e.data.date || e.data.date >= aujourdhui)
+  .sort((a, b) => (a.data.date?.valueOf() ?? Infinity) - (b.data.date?.valueOf() ?? Infinity));
+const jour = (d: Date) => d.toLocaleDateString('fr-FR', { day: 'numeric', timeZone: 'UTC' });
+const mois = (d: Date) => d.toLocaleDateString('fr-FR', { month: 'short', timeZone: 'UTC' }).replace('.', '');
+---
+
+<div class="agenda">
+  {
+    evenements.length > 0 ? (
+      <ul class="agenda__liste">
+        {evenements.map((e) => (
+          <li class="agenda__item" data-date={e.data.date ? isoDate(e.data.date) : undefined}>
+            <div class="agenda__date">
+              {e.data.date ? (
+                <>
+                  <span class="agenda__jour">{jour(e.data.date)}</span>
+                  <span class="agenda__mois">{mois(e.data.date)}</span>
+                </>
+              ) : (
+                <span class="agenda__mois">Bientôt</span>
+              )}
+            </div>
+            <div>
+              <span class="etiquette">{e.data.type}</span>
+              <h3>{e.data.titre}</h3>
+              <p class="agenda__infos">{[e.data.heure, e.data.lieu].filter(Boolean).join(' · ')}</p>
+              <p>{e.data.resume}</p>
+              {e.data.lien && (
+                <a class="lien-fleche" href={e.data.lien} rel="noopener">
+                  En savoir plus
+                </a>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <div class="agenda__vide">
+        <span class="picto picto--rouge"><Icone nom="horloge" taille={28} /></span>
+        <div>
+          <h3>Prochainement</h3>
+          <p>
+            Nos prochaines interventions et rencontres arrivent bientôt. Suivez-nous sur Instagram
+            (<a href={SITE.instagram.url} rel="noopener">{SITE.instagram.pseudo}</a>) pour ne rien manquer, ou
+            <a href={url('contact?motif=intervention')}>invitez le collectif</a> dans votre fac, votre IFSI ou votre service.
+          </p>
+        </div>
+      </div>
+    )
+  }
+</div>
+
+<script>
+  // Masque les événements passés entre deux mises à jour du site.
+  const aujourdhui = new Date().toISOString().slice(0, 10);
+  document.querySelectorAll<HTMLElement>('.agenda__item[data-date]').forEach((el) => {
+    if ((el.dataset.date ?? '') < aujourdhui) el.hidden = true;
+  });
+</script>

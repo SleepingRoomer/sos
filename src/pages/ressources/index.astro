@@ -32,7 +32,7 @@ const types = [...new Set(ressources.map((r) => r.data.type))];
           </div>
         )
       }
-      <div class="grille grille-3" data-liste>
+      <div class="grille grille-3 grille-3-fixe" data-liste>
         {ressources.map((r) => <Carte href={`ressources/${r.id}`} {...r.data} suite="Consulter" />)}
       </div>
       {ressources.length === 0 && <p class="vide">Les premières ressources arrivent bientôt.</p>}

@@ -9,12 +9,13 @@ import { SITE } from '../config';
   <section class="section" style="padding-top:2.5rem">
     <div class="conteneur-texte prose">
       <h2>Éditeur du site</h2>
-      <!-- À COMPLÉTER : statut (collectif de fait ou association loi 1901), adresse ou siège, nom du ou de la directeur·rice de la publication. -->
       <p>
-        Collectif {SITE.nom} (SOS)<br />
-        Contact : <a href={`mailto:${SITE.email}`}>{SITE.email}</a><br />
-        Directeur·rice de la publication : [à compléter]
+        Ce site est édité à titre non professionnel par le collectif {SITE.nom} (SOS), collectif de fait non déclaré.
+        Ses membres ont choisi de préserver leur anonymat, conformément à l'article 1-1, II de la loi n° 2004-575 du
+        21 juin 2004 pour la confiance dans l'économie numérique (LCEN) : leurs éléments d'identification ont été
+        communiqués à l'hébergeur ci-dessous.
       </p>
+      <p>Contact : <a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
 
       <h2>Hébergement</h2>
       <p>
