@@ -2,147 +2,185 @@
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import Icone from '../components/Icone.astro';
+import { SITE } from '../config';
 import { url } from '../utils';
 
-// Dispositifs vérifiés en novembre 2026. À relire de temps en temps : numéros et horaires peuvent changer.
-// Évite qu'un numéro de téléphone soit coupé en fin de ligne.
-const insecable = (t: string) => t.replace(/(\d) (?=\d)/g, '$1\u00a0');
-
-const blocs = [
+// Structures de confiance vers lesquelles le collectif oriente.
+// Coordonnées vérifiées en novembre 2026 : à relire de temps en temps.
+type Lien = { label: string; href: string };
+const partenaires: {
+  sigle: string;
+  nom: string;
+  theme: string;
+  icone: 'ecoute' | 'formation' | 'groupe' | 'coeur' | 'soutien' | 'juridique';
+  texte: string;
+  liens: Lien[];
+}[] = [
   {
-    id: 'signaler',
-    icone: 'megaphone',
-    titre: 'Signaler une discrimination',
-    texte:
-      "Victime ou témoin, à l'hôpital, en stage ou en formation : les juristes du Défenseur des droits vous écoutent, vous conseillent et peuvent ouvrir une enquête ou proposer une médiation. C'est gratuit et confidentiel.",
-    contacts: [
-      { label: 'Défenseur des droits', valeur: '39 28', lien: 'tel:3928', note: 'en semaine, prix d’un appel local' },
-      { label: 'Tchat et signalement en ligne', valeur: 'antidiscriminations.fr', lien: 'https://www.antidiscriminations.fr/' },
-      { label: 'Par courrier, sans timbre', valeur: 'Défenseur des droits, Libre réponse 71120, 75342 Paris Cedex 07' },
-    ],
-    plus: "L'annuaire d'antidiscriminations.fr recense aussi les délégué·es près de chez vous et les associations partenaires.",
-  },
-  {
-    id: 'juridique',
-    icone: 'juridique',
-    titre: 'Un conseil juridique gratuit',
-    texte:
-      "Avant toute démarche, faites le point sur vos droits avec un·e professionnel·le du droit. Les point-justice proposent des consultations gratuites, notamment avec des avocat·es.",
-    contacts: [
-      { label: 'Numéro de l’accès au droit', valeur: '30 39', lien: 'tel:3039', note: 'gratuit et anonyme' },
-      { label: 'Trouver un point-justice', valeur: 'justice.fr', lien: 'https://www.justice.fr/' },
-    ],
-    plus:
-      "Soignant·e salarié·e ou agent·e public : les représentant·es du personnel et les syndicats de votre établissement peuvent aussi vous accompagner, parfois avec un·e avocat·e.",
-  },
-  {
-    id: 'ecoute',
-    icone: 'coeur',
-    titre: 'Être écouté·e, prendre soin de soi',
-    texte:
-      "Une discrimination laisse des traces. Des psychologues répondent spécifiquement aux soignant·es et aux étudiant·es, de façon anonyme, à toute heure.",
-    contacts: [
-      { label: 'Association SPS (soignant·es et étudiant·es)', valeur: '0 805 23 23 36', lien: 'tel:0805232336', note: '24 h/24, 7 j/7, gratuit et anonyme' },
-      { label: 'Numéro national de prévention du suicide', valeur: '31 14', lien: 'tel:3114', note: '24 h/24, 7 j/7, gratuit' },
-    ],
-    plus:
-      'Pensez aussi au service de santé étudiante de votre université, ou au service de santé au travail de votre établissement.',
-  },
-  {
-    id: 'patients',
-    icone: 'groupe',
-    titre: 'Patient·es : refus de soins, traitement discriminatoire',
-    texte:
-      "Un refus de soins ou un traitement différent en raison de votre origine, de votre religion, de votre couverture sociale (CSS, AME…) est interdit par la loi (article L.1110-3 du Code de la santé publique).",
-    contacts: [
-      { label: 'Dans un hôpital ou une clinique', valeur: 'La commission des usagers (CDU)', note: 'ses coordonnées sont affichées dans l’établissement et sur son site' },
-      { label: 'Refus de soins par un·e professionnel·le', valeur: 'Votre caisse d’assurance maladie (CPAM) ou l’Ordre professionnel concerné' },
-      { label: 'Dans tous les cas', valeur: 'Le Défenseur des droits, au 39 28', lien: 'tel:3928' },
-    ],
-  },
-  {
-    id: 'plainte',
+    sigle: 'CCIE',
+    nom: "Collectif contre l'islamophobie en Europe",
+    theme: 'Islamophobie',
     icone: 'soutien',
-    titre: 'Porter plainte',
     texte:
-      "La discrimination, les injures et les violences racistes ou religieuses sont des délits. Vous pouvez porter plainte dans un commissariat ou une gendarmerie, qui ne peuvent pas refuser de l'enregistrer, ou écrire directement au procureur de la République.",
-    contacts: [
-      { label: 'Contenus haineux en ligne', valeur: 'internet-signalement.gouv.fr (Pharos)', lien: 'https://www.internet-signalement.gouv.fr/' },
-      { label: 'Danger immédiat', valeur: '17 ou 112', lien: 'tel:112' },
+      "Accompagne gratuitement les victimes d'islamophobie. Victime ou témoin, vous pouvez y faire un signalement confidentiel, traité par des juristes.",
+    liens: [
+      { label: 'Signaler sur ccieurope.org', href: 'https://ccieurope.org/' },
+      { label: '+32 2 315 11 10', href: 'tel:+3223151110' },
     ],
-    plus: 'Avant de porter plainte, gardez toutes les traces : dates, propos exacts, témoins, messages, convocations.',
   },
-] as const;
+  {
+    sigle: 'EMF',
+    nom: 'Étudiants musulmans de France',
+    theme: 'Islamophobie à la fac',
+    icone: 'formation',
+    texte:
+      "Association étudiante présente dans de nombreuses universités, qui défend les droits des étudiant·es. Un relais de proximité si vous êtes visé·e par l'islamophobie pendant vos études.",
+    liens: [{ label: 'Trouver une section sur emf-asso.fr', href: 'https://www.emf-asso.fr/nous-contacter-2/' }],
+  },
+  {
+    sigle: 'ASAP',
+    nom: 'Assemblée pour des soins antiracistes et populaires',
+    theme: 'Racisme en santé',
+    icone: 'groupe',
+    texte:
+      "Collectif de travailleur·ses et d'usager·es du soin qui s'organise contre le racisme en santé, avec des assemblées ouvertes à toutes et tous. Co-auteur du « racistomètre ».",
+    liens: [
+      { label: 'Instagram @ag_soins_antiracistes', href: 'https://www.instagram.com/ag_soins_antiracistes/' },
+      { label: 'Ag_antiracisme_soins@proton.me', href: 'mailto:Ag_antiracisme_soins@proton.me' },
+    ],
+  },
+  {
+    sigle: 'ObsMed',
+    nom: 'Observatoire féministe des violences médicales',
+    theme: 'Violences médicales',
+    icone: 'coeur',
+    texte:
+      'Documente les violences médicales et sexistes, recueille les témoignages et diffuse des outils pour les reconnaître et les dénoncer.',
+    liens: [
+      { label: 'obs-med.com', href: 'https://www.obs-med.com/' },
+      { label: 'Le racistomètre et les ressources', href: 'https://www.obs-med.com/informersensibiliser' },
+    ],
+  },
+  {
+    sigle: 'BBG',
+    nom: 'Blouses blanches pour Gaza',
+    theme: 'Soutien à la Palestine',
+    icone: 'ecoute',
+    texte:
+      'Collectif de soignant·es solidaires de la population palestinienne et de ses soignant·es. À contacter si vous subissez des pressions ou des discriminations liées à votre soutien à la cause palestinienne.',
+    liens: [{ label: 'Instagram @blousesblanchesgaza', href: 'https://www.instagram.com/blousesblanchesgaza/' }],
+  },
+  {
+    sigle: 'DDD',
+    nom: 'Défenseur des droits',
+    theme: 'Recours officiel',
+    icone: 'juridique',
+    texte:
+      "Autorité indépendante. Ses juristes écoutent gratuitement les victimes et témoins de discriminations, et peuvent enquêter ou proposer une médiation.",
+    liens: [
+      { label: '39 28', href: 'tel:3928' },
+      { label: 'antidiscriminations.fr', href: 'https://www.antidiscriminations.fr/' },
+    ],
+  },
+];
+
+// Évite qu'un numéro de téléphone soit coupé en fin de ligne.
+const insecable = (t: string) => t.replace(/(\d) (?=\d)/g, '$1 ');
 ---
 
 <Base
   titre="Où trouver de l'aide"
-  description="Discrimination dans le soin : les numéros et structures pour signaler, être conseillé·e, écouté·e ou porter plainte. Soignant·es, étudiant·es et patient·es."
+  description="Discrimination dans le soin : le collectif Soigner ou Saigner vous écoute et vous oriente vers des structures de confiance (CCIE, EMF, ASAP, ObsMed, Blouses blanches pour Gaza, Défenseur des droits)."
 >
   <PageHeader
     surtitre="Vous n'êtes pas seul·e"
     titre="Où trouver de l'aide"
-    chapo="Soignant·e, étudiant·e ou patient·e : voici les structures qui peuvent vous écouter, vous conseiller et vous défendre. Le collectif peut aussi vous aider à vous orienter."
-  >
-    <nav class="sommaire" aria-label="Sur cette page">
-      {blocs.map((b) => <a href={`#${b.id}`}>{b.titre}</a>)}
-    </nav>
-  </PageHeader>
+    chapo="Soignant·e, étudiant·e ou patient·e : le collectif est là pour vous. Commencez par nous écrire : nous vous écoutons, nous vous conseillons et, si besoin, nous vous orientons vers des structures de confiance."
+  />
 
-  <section class="section section--pale">
-    <div class="conteneur aide-liste">
-      {
-        blocs.map((b, i) => (
-          <article class="aide-bloc" id={b.id}>
-            <div class="aide-bloc__tete">
-              <span class={`picto${i % 2 ? ' picto--rouge' : ''}`}>
-                <Icone nom={b.icone} taille={28} />
-              </span>
-              <h2>{b.titre}</h2>
-            </div>
-            <p class="aide-bloc__texte">{b.texte}</p>
-            <ul class="aide-contacts">
-              {b.contacts.map((c) => (
-                <li>
-                  <span class="aide-contacts__label">{c.label}</span>
-                  {'lien' in c && c.lien ? (
-                    <a class="aide-contacts__valeur" href={c.lien} rel={c.lien.startsWith('http') ? 'noopener' : undefined}>
-                      {insecable(c.valeur)}
+  <section class="section" aria-labelledby="commencer">
+    <div class="conteneur">
+      <div class="aide-premier">
+        <div>
+          <span class="etiquette etiquette--rouge">Le premier réflexe</span>
+          <h2 id="commencer">Écrivez au collectif</h2>
+          <p>
+            Remarques, pressions, convocation, sanction, refus de soins : racontez-nous ce qui s'est passé. Écoute,
+            soutien moral, aide juridique au cas par cas : on cherche avec vous la meilleure réponse.
+          </p>
+          <p><strong>Avant de refuser un ordre de votre hiérarchie, parlez-nous-en.</strong></p>
+        </div>
+        <ul class="aide-premier__actions">
+          <li>
+            <a href={url('temoigner')}>
+              <span class="picto picto--rouge"><Icone nom="cadenas" /></span>
+              <span><strong>Témoigner anonymement</strong>Formulaire de 5 à 10 minutes</span>
+            </a>
+          </li>
+          <li>
+            <a href={url('contact?motif=conseil')}>
+              <span class="picto"><Icone nom="mail" /></span>
+              <span><strong>Demander conseil</strong>Pour une situation en cours</span>
+            </a>
+          </li>
+          <li>
+            <a href={SITE.instagram.url} rel="noopener">
+              <span class="picto"><Icone nom="bulle" /></span>
+              <span><strong>Message sur Instagram</strong>{SITE.instagram.pseudo}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--pale" aria-labelledby="partenaires">
+    <div class="conteneur">
+      <h2 id="partenaires" class="filets">Des structures de confiance</h2>
+      <p class="chapo" style="margin-bottom:2rem">
+        Selon votre situation, ces collectifs et institutions peuvent aussi vous accompagner. N'hésitez pas à nous
+        demander conseil pour choisir.
+      </p>
+      <div class="grille grille-3 grille-3-fixe">
+        {
+          partenaires.map((p, i) => (
+            <article class="partenaire">
+              <div class="partenaire__tete">
+                <span class={`picto${i % 2 ? ' picto--rouge' : ''}`}>
+                  <Icone nom={p.icone} taille={26} />
+                </span>
+                <span class="etiquette">{p.theme}</span>
+              </div>
+              <h3>
+                <span class="partenaire__sigle">{p.sigle}</span>
+                {p.nom}
+              </h3>
+              <p>{p.texte}</p>
+              <ul class="partenaire__liens">
+                {p.liens.map((l) => (
+                  <li>
+                    <a href={l.href} rel={l.href.startsWith('http') ? 'noopener' : undefined}>
+                      {insecable(l.label)}
                     </a>
-                  ) : (
-                    <span class="aide-contacts__valeur aide-contacts__valeur--texte">{insecable(c.valeur)}</span>
-                  )}
-                  {'note' in c && c.note && <span class="aide-contacts__note">{c.note}</span>}
-                </li>
-              ))}
-            </ul>
-            {'plus' in b && b.plus && <p class="aide-bloc__plus">{b.plus}</p>}
-          </article>
-        ))
-      }
-    </div>
-  </section>
-
-  <section class="rejoindre" aria-labelledby="collectif-aide">
-    <div class="conteneur bandeau">
-      <div>
-        <h2 id="collectif-aide">Le collectif est à l'écoute</h2>
-        <p>
-          Vous ne savez pas par où commencer ? Racontez-nous ce qui s'est passé : nous vous aidons à y voir clair et à
-          trouver le bon interlocuteur. Avant de refuser un ordre de votre hiérarchie, parlez-nous-en.
-        </p>
-      </div>
-      <div class="boutons">
-        <a class="bouton bouton--blanc" href={url('temoigner')}>Témoigner</a>
-        <a class="bouton bouton--blanc" href={url('contact?motif=conseil')}>Demander conseil</a>
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))
+        }
       </div>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" style="padding-block:2.5rem">
     <div class="conteneur-texte">
+      <p class="aide-urgence">
+        <strong>En cas d'urgence</strong> : danger immédiat, appelez le <a href="tel:112">112</a> ou le
+        <a href="tel:17">17</a>. Détresse psychologique, idées suicidaires : le <a href="tel:3114">31&nbsp;14</a>,
+        gratuit, 24 h/24.
+      </p>
       <p class="aide">
-        Informations vérifiées en novembre 2026. Une coordonnée a changé ou une structure manque ?
+        Informations vérifiées en novembre 2026. Une coordonnée a changé ?
         <a href={url('contact?motif=autre')}>Signalez-le-nous</a>.
       </p>
     </div>
