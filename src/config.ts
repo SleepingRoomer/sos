@@ -27,12 +27,12 @@ export const FORMULAIRES = {
   },
 };
 
-// Formulaire de contact du site : les messages arrivent par e-mail via FormSubmit.
-// Au tout premier envoi, FormSubmit envoie un e-mail d'activation à l'adresse du collectif :
-// il suffit de cliquer sur le lien qu'il contient.
+// Formulaire de contact du site : les messages arrivent par e-mail via Web3Forms.
+// La clé d'accès s'obtient gratuitement sur https://web3forms.com avec l'adresse du collectif.
+// Elle est faite pour être publique (elle permet seulement d'envoyer vers cette adresse).
 export const CONTACT = {
-  envoi: `https://formsubmit.co/ajax/${SITE.email}`,
-  envoiSansJs: `https://formsubmit.co/${SITE.email}`,
+  cle: '',
+  envoi: 'https://api.web3forms.com/submit',
   motifs: [
     { id: 'presse', label: 'Presse et médias' },
     { id: 'intervention', label: 'Intervention, formation, conférence' },

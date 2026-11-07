@@ -542,3 +542,6 @@ p { margin: 0 0 1em; }
 .contact-aside .contact-carte .picto { margin: 0; flex: none; width: 2.8rem; height: 2.8rem; }
 .contact-aside .contact-carte p { margin: .2rem 0 0; }
 .bouton-texte { background: none; border: 0; padding: 0; color: var(--bleu); font: inherit; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.contact-form__secours { border: 3px solid var(--rouge); background: #fff6f6; padding: 1.2rem 1.4rem; display: grid; gap: .8rem; }
+.contact-form__secours p { margin: 0; }
+.contact-form__secours .bouton { font-size: .82rem; padding: .8em 1.1em; }

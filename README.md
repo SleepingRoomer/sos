@@ -62,12 +62,12 @@ Contenu de la ressource.
 E-mail, Instagram, formulaires Google, motifs du formulaire de contact, menu et galerie Instagram de l'accueil :
 tout est dans `src/config.ts`. Pour une nouvelle campagne de témoignages, remplacez simplement l'`url` du formulaire.
 
-## Formulaire de contact (à activer une fois)
+## Formulaire de contact
 
-Les messages de la page Contact sont envoyés par e-mail via [FormSubmit](https://formsubmit.co), sans compte à créer.
-**Au tout premier message envoyé depuis le site en ligne**, FormSubmit envoie un e-mail « Action required: Activate
-FormSubmit » à soigner.ou.saigner@gmail.com : cliquez sur le lien qu'il contient. Les messages suivants arrivent
-directement dans la boîte mail. Pensez à vérifier les spams.
+Les messages de la page Contact sont envoyés par e-mail via [Web3Forms](https://web3forms.com).
+La clé d'accès (gratuite) se renseigne dans `src/config.ts`, champ `CONTACT.cle`. Pour en obtenir une : sur
+web3forms.com, saisir soigner.ou.saigner@gmail.com, la clé arrive par e-mail.
+Si l'envoi échoue, le site propose d'ouvrir la messagerie avec le message déjà rédigé, ou de le copier.
 
 ## Mise en ligne (une seule fois)
 

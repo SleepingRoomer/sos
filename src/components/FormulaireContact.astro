@@ -1,20 +1,29 @@
 ---
-// Formulaire de contact : envoi par e-mail via FormSubmit (pas de serveur à gérer).
+// Formulaire de contact : envoi par e-mail via Web3Forms (pas de serveur à gérer).
 // Le motif peut être prérempli avec l'adresse contact/?motif=presse
+// Si l'envoi échoue (ou si la clé n'est pas encore renseignée), la personne peut
+// ouvrir son appli mail avec le message déjà rédigé, ou copier le message.
 import { CONTACT, SITE } from '../config';
 import { url } from '../utils';
 import Icone from './Icone.astro';
 const merci = new URL(url('contact/merci'), Astro.site).toString();
 ---
 
-<form class="contact-form" id="formulaire" action={CONTACT.envoiSansJs} method="POST" data-contact data-envoi={CONTACT.envoi}>
-  <input type="hidden" name="_subject" value="[Site SOS] Nouveau message" data-sujet />
-  <input type="hidden" name="_template" value="table" />
-  <input type="hidden" name="_captcha" value="false" />
-  <input type="hidden" name="_next" value={merci} />
-  <p class="piege" aria-hidden="true">
-    <label>Ne pas remplir <input type="text" name="_honey" tabindex="-1" autocomplete="off" /></label>
-  </p>
+<form
+  class="contact-form"
+  id="formulaire"
+  action={CONTACT.envoi}
+  method="POST"
+  data-contact
+  data-envoi={CONTACT.envoi}
+  data-cle={CONTACT.cle}
+  data-email={SITE.email}
+>
+  <input type="hidden" name="access_key" value={CONTACT.cle} />
+  <input type="hidden" name="subject" value="[Site SOS] Nouveau message" data-sujet />
+  <input type="hidden" name="from_name" value="Site Soigner ou Saigner" />
+  <input type="hidden" name="redirect" value={merci} />
+  <input type="checkbox" name="botcheck" class="piege" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
   <div class="champ">
     <label for="motif">Objet de votre message</label>
@@ -60,7 +69,18 @@ const merci = new URL(url('contact/merci'), Astro.site).toString();
     <button class="bouton" type="submit"><Icone nom="mail" taille={18} /> Envoyer le message</button>
     <p class="contact-form__statut" role="status" aria-live="polite" data-statut></p>
   </div>
-  <p class="aide">Le formulaire ne fonctionne pas ? Écrivez-nous directement à <strong>{SITE.email}</strong>.</p>
+
+  <div class="contact-form__secours" data-secours hidden>
+    <p>
+      <strong>Votre message n'a pas pu partir depuis le site.</strong> Il n'est pas perdu : envoyez-le depuis votre
+      messagerie, il est déjà rédigé.
+    </p>
+    <div class="boutons">
+      <a class="bouton" href="#" data-secours-mail><Icone nom="mail" taille={18} /> Ouvrir ma messagerie</a>
+      <button class="bouton bouton--contour" type="button" data-secours-copier>Copier le message</button>
+    </div>
+    <p class="aide">Adresse du collectif : <strong>{SITE.email}</strong></p>
+  </div>
 </form>
 
 <script>
@@ -71,6 +91,8 @@ const merci = new URL(url('contact/merci'), Astro.site).toString();
     const sujet = form.querySelector<HTMLInputElement>('[data-sujet]')!;
     const statut = form.querySelector<HTMLElement>('[data-statut]')!;
     const bouton = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+    const secours = form.querySelector<HTMLElement>('[data-secours]')!;
+    const val = (sel: string) => (form.querySelector<HTMLInputElement>(sel)?.value ?? '').trim();
 
     const majAide = () => {
       const id = motif.selectedOptions[0]?.dataset.id;
@@ -84,39 +106,59 @@ const merci = new URL(url('contact/merci'), Astro.site).toString();
     majAide();
     motif.addEventListener('change', majAide);
 
+    // Message de secours : on prépare un e-mail avec le contenu déjà saisi.
+    const texteMessage = () =>
+      [
+        val('#message'),
+        '',
+        '—',
+        `${val('#nom')}${val('#structure') ? ` (${val('#structure')})` : ''}`,
+        val('#email'),
+      ].join('\n');
+    const afficherSecours = () => {
+      const lien = form.querySelector<HTMLAnchorElement>('[data-secours-mail]')!;
+      lien.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent(sujet.value)}&body=${encodeURIComponent(texteMessage())}`;
+      secours.hidden = false;
+      statut.textContent = '';
+    };
+    form.querySelector('[data-secours-copier]')?.addEventListener('click', async (e) => {
+      const b = e.currentTarget as HTMLButtonElement;
+      try {
+        await navigator.clipboard.writeText(`À : ${form.dataset.email}\nObjet : ${sujet.value}\n\n${texteMessage()}`);
+        b.textContent = 'Message copié !';
+      } catch {
+        b.textContent = 'Copie impossible';
+      }
+    });
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const nom = (form.querySelector<HTMLInputElement>('#nom')?.value ?? '').trim();
-      sujet.value = `[Site SOS] ${motif.value} – ${nom}`;
+      sujet.value = `[Site SOS] ${motif.value} – ${val('#nom')}`;
+      secours.hidden = true;
+      if (!form.dataset.cle) {
+        afficherSecours();
+        return;
+      }
       bouton.disabled = true;
       statut.className = 'contact-form__statut';
       statut.textContent = 'Envoi en cours…';
       try {
+        const donnees = Object.fromEntries(new FormData(form));
+        delete donnees.redirect;
         const reponse = await fetch(form.dataset.envoi!, {
           method: 'POST',
-          headers: { Accept: 'application/json' },
-          body: new FormData(form),
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(donnees),
         });
         const json = await reponse.json().catch(() => ({}));
-        const message = String(json.message ?? '');
-        if (/activ/i.test(message)) {
-          // Premier envoi : FormSubmit attend que le collectif clique sur le lien d'activation reçu par e-mail.
-          statut.classList.add('contact-form__statut--erreur');
-          statut.textContent =
-            "Le formulaire est en cours d'activation et votre message n'a pas pu être transmis. Écrivez-nous directement par e-mail en attendant.";
-          console.info('FormSubmit :', message);
-          return;
-        }
-        if (!reponse.ok || json.success === 'false' || json.success === false) throw new Error(message);
+        if (!reponse.ok || json.success !== true) throw new Error(json.body?.message ?? json.message ?? reponse.status);
         form.reset();
         majAide();
         statut.classList.add('contact-form__statut--ok');
         statut.textContent = 'Merci, votre message est bien parti. Nous vous répondons au plus vite.';
       } catch (erreur) {
         console.warn('Envoi du formulaire de contact :', erreur);
-        statut.classList.add('contact-form__statut--erreur');
-        statut.textContent =
-          "L'envoi n'a pas fonctionné. Si vous utilisez un bloqueur de publicité, désactivez-le pour ce site et réessayez, ou écrivez-nous directement par e-mail.";
+        afficherSecours();
       } finally {
         bouton.disabled = false;
       }
