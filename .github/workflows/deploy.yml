@@ -26,9 +26,8 @@ jobs:
       - run: npm ci
       - run: npm run build
         env:
-          # Avec un nom de domaine : SITE_URL: https://votre-domaine.fr et BASE_PATH: /
-          SITE_URL: https://sleepingroomer.github.io
-          BASE_PATH: /sos
+          SITE_URL: https://soigner-ou-saigner.com
+          BASE_PATH: /
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

@@ -75,20 +75,23 @@ La clé d'accès (gratuite) se renseigne dans `src/config.ts`, champ `CONTACT.cl
 web3forms.com, saisir soigner.ou.saigner@gmail.com, la clé arrive par e-mail.
 Si l'envoi échoue, le site propose d'ouvrir la messagerie avec le message déjà rédigé, ou de le copier.
 
-## Mise en ligne (une seule fois)
+## Mise en ligne
 
-Dans le dépôt GitHub : **Settings → Pages → Build and deployment → Source : GitHub Actions**.
-Le site est alors publié à l'adresse https://sleepingroomer.github.io/sos/ à chaque modification.
+Le site est hébergé gratuitement par GitHub Pages (Settings → Pages → Source : GitHub Actions) et publié à
+chaque modification de la branche `main`.
 
-**Avec un nom de domaine** (ex. `soigner-ou-saigner.fr`) : dans `.github/workflows/deploy.yml`, mettez
-`SITE_URL: https://soigner-ou-saigner.fr` et `BASE_PATH: /`, ajoutez le domaine dans **Settings → Pages → Custom domain**,
-puis configurez le DNS chez le registrar comme indiqué par GitHub.
+**Adresse : https://soigner-ou-saigner.com** (domaine acheté chez OVHcloud).
+- Chez OVH, dans la zone DNS du domaine : enregistrements A de `soigner-ou-saigner.com` vers 185.199.108.153,
+  185.199.109.153, 185.199.110.153 et 185.199.111.153 (plus, en option, les AAAA 2606:50c0:8000::153 à
+  2606:50c0:8003::153), et un CNAME `www` vers `sleepingroomer.github.io`. Supprimer les anciens A / AAAA vers OVH.
+- Sur GitHub : Settings → Pages → Custom domain = `soigner-ou-saigner.com`, puis cocher « Enforce HTTPS ».
+- Pour changer d'adresse : `SITE_URL` et `BASE_PATH` dans `.github/workflows/deploy.yml` et `astro.config.mjs`.
 
 ## Travailler en local
 
 ```bash
 npm install
-npm run dev     # aperçu sur http://localhost:4321/sos/
+npm run dev     # aperçu sur http://localhost:4321/
 npm run build   # génère le site dans dist/
 ```
 
